@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
   }, { sequelize, modelName: 'roleCategory' })
 
   RoleCategory.associate = models => {
-    RoleCategory.hasMany(models.RoleCategory, { foreignKey: 'categoryId', targetKey: 'id' })
+    RoleCategory.hasMany(models.Role, { foreignKey: 'categoryId', targetKey: 'id' })
     RoleCategory.belongsTo(models.Server, { foreignKey: 'serverSnowflake', targetKey: 'snowflake' })
   }
 

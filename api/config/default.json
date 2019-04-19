@@ -3,5 +3,11 @@
   },
   "bot": {
     "token": null
+  },
+  "db": {
+    "database": null,
+    "host": null,
+    "password": null,
+    "user": null
   }
 }
