@@ -1,13 +1,12 @@
 <template>
-  <HelloWorld/>
+  <Err404 />
 </template>
 
 <script>
-import HelloWorld from '../components/HelloWorld'
-
+import Err404 from '../components/Err404'
 export default {
   components: {
-    HelloWorld
+    Err404
   }
 }
 </script>
