@@ -20,6 +20,11 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     },
     {
+      path: '/test',
+      name: 'test',
+      component: () => import(/* webpackChunkName: "test" */ './views/Tester.vue')
+    },
+    {
       path: '*',
       name: '404',
       component: () => import(/* webpackChunkName: "404" */ './views/Err404.vue')

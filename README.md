@@ -19,6 +19,12 @@ A combination of Vuetify, JS and Discord for prettier role management
   - Interfacey stuff
   - Vuetified
 
+# Rules
+
+1. "Colour" not "Color"
+2. 2-space indenting
+
+
 ### Contributors:
  - [Strideynet](https://github.com/strideynet)
  - [Nightmarlin](https://github.com/nightmarlin)
