@@ -12,7 +12,7 @@
         target="_blank"
       >
         <span class="mr-2">Check it out</span>
-        <v-icon>github-circle</v-icon>
+        <span class='mdi mdi-github-circle' />
       </v-btn>
     </v-toolbar>
 
