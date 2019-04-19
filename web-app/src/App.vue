@@ -2,17 +2,17 @@
   <v-app dark>
     <v-toolbar app>
       <v-toolbar-title class="headline text-uppercase">
-        <span>Vuetify</span>
-        <span class="font-weight-light">MATERIAL DESIGN</span>
+        <span>Better Role Bot</span>
+        <span class="font-weight-light">: For all your role-based needs</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn
         flat
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        href="https://github.com/strideynet/better-role-bot"
         target="_blank"
       >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>open_in_new</v-icon>
+        <span class="mr-2">Check it out</span>
+        <v-icon>github-circle</v-icon>
       </v-btn>
     </v-toolbar>
 

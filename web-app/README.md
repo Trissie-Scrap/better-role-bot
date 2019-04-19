@@ -1,5 +1,13 @@
 # web-app
 
+## Things needed
+
+ - Landing page
+ - Login (with Discord)
+ - Manage self
+ - Manage server
+ - Add server
+
 ## Project setup
 ```
 yarn install
