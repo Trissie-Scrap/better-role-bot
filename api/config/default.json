@@ -1,8 +1,14 @@
 {
   "api": {
+    "port": 9000,
+    "apiUrl": "http://localhost:9000",
+    "frontendUrl": "http://localhost:8080",
+    "secret": "changeMeYouBastard"
   },
-  "bot": {
-    "token": null
+  "discord": {
+    "botToken": null,
+    "clientId": null,
+    "clientSecret": null
   },
   "db": {
     "database": null,
