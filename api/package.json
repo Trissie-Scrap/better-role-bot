@@ -17,12 +17,15 @@
     "eslint-plugin-standard": "^4.0.0"
   },
   "dependencies": {
+    "btoa": "^1.2.1",
     "config": "^3.1.0",
     "cors": "^2.8.5",
     "debug": "^4.1.1",
     "discord.js": "^11.4.2",
     "express": "^4.16.4",
+    "express-session": "^1.16.1",
     "mysql2": "^1.6.5",
+    "node-fetch": "^2.3.0",
     "sequelize": "^5.7.0"
   }
 }
