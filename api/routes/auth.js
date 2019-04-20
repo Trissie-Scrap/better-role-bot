@@ -61,4 +61,8 @@ router.get('/callback', async (req, res, next) => {
   }
 })
 
+router.get('/bot', (req, res) => {
+  res.redirect(`https://discordapp.com/api/oauth2/authorize?client_id=${CLIENT_ID}&scope=bot&permissions=268435456`)
+})
+
 module.exports = router

@@ -1,10 +1,12 @@
+const bot = require('./bot')
 const config = require('config')
 const cors = require('cors')
-const debug = require('debug')('brb-api')
+const debug = require('debug')('brb:api')
 const express = require('express')
 const session = require('express-session')
 
 const primaryRouter = require('./routes')
+const decodeUserMiddleware = require('./utils/decodeUser')
 
 const API_SECRET = config.get('api.secret')
 const PORT = config.get('api.port')
@@ -19,6 +21,8 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }))
+
+app.use(decodeUserMiddleware)
 
 // Routes and Routers
 
