@@ -1,0 +1,10 @@
+<template>
+  <v-layout>
+    <v-flex
+      xs12
+      flex-child
+    >
+      <p>{{$route.params.serverId}}</p>
+    </v-flex>
+  </v-layout>
+</template>

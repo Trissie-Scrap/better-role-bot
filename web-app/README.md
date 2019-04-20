@@ -2,11 +2,19 @@
 
 ## Things needed
 
- - Landing page
- - Login (with Discord)
- - Manage self
+ - Landing (Via Srever)
+   - Login components
+ - Landing (Via Site)
+   - Login Components
+   - "Add this bot to your server"
+ - Account
+   - Servers you manage
+   - Servers you're in
  - Manage server
- - Add server
+   - Categories
+   - Roles
+ - Manage Self
+   - Select roles
 
 ## Project setup
 ```

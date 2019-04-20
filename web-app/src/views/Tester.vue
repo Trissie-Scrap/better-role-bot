@@ -83,5 +83,19 @@
       </v-flex>
 
     </v-layout>
+
+    <v-layout>
+      <DiscordLogin />
+    </v-layout>
   </div>
 </template>
+
+<script>
+import DiscordLogin from '../components/login'
+export default {
+  name: 'Tester',
+  components: {
+    DiscordLogin
+  }
+}
+</script>

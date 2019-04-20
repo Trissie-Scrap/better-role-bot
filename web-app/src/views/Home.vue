@@ -14,7 +14,7 @@
       text-xs-center
       xs12
     >
-      <h2>Please log in with <i>Discord <span class="mdi mdi-discord" /></i> to continue</h2>
+      <h2>Please log in with <i>Discord <v-icon>mdi-discord</v-icon></i> to continue</h2>
     </v-flex>
   </v-layout>
 </template>
