@@ -7,7 +7,10 @@
  */
 module.exports = (req, res, next) => {
   if (!req.user) {
-    res.status(401).send('Unauthenticated: You must be logged in to use this endpoint.')
+    const err = new Error('Unauthenticated: You must be logged in to use this endpoint.')
+    err.statusCode = 401
+
+    return next(err)
   }
 
   next()

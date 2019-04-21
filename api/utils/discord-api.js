@@ -3,9 +3,9 @@ const fetch = require('node-fetch')
 
 const BOT_TOKEN = config.get('discord.botToken')
 
-async function discordApi(endpoint, method, body) {
+async function discordApi (endpoint, method, body) {
   const res = await fetch(`http://discordapp.com/api${endpoint}`, {
-    method: 'GET',
+    method: method,
     headers: {
       Authorization: `Bot ${BOT_TOKEN}`
     }

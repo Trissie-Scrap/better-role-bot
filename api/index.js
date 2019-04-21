@@ -42,13 +42,23 @@ app.get('/healthz', (req, res) => {
 
 app.use('/', primaryRouter) // Mount primary router for all requests
 
+// error handler
 app.use((err, req, res, next) => {
   if (!err) next()
 
-  debug('an error occurred handling a request to %s %s \n %O', req.method, req.originalUrl, err)
+  if (err.statusCode >= 400 && err.statusCode < 500) {
+    debug('%d %s %s %s', err.statusCode, req.method, req.url, err.message)
 
+    return res.status(err.statusCode).json({
+      status: err.statusCode,
+      message: err.message
+    })
+  }
+
+  debug('an error occurred handling a request to %s %s \n %O', req.method, req.originalUrl, err)
   res.status(500).json({
-    moreErrorData: true // TODO: Put appropriate error info here!
+    status: 500,
+    message: 'a server error occurred. sorry :)'
   })
 })
 
