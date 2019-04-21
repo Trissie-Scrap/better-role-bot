@@ -23,7 +23,8 @@ async function getGuildSyncData (guildId, botId) {
       guildSnowflake: guild.id,
       name: role.name,
       color: role.color,
-      assignable: ((botsHighestRolePosition - role.position) > 0)
+      assignable: ((botsHighestRolePosition - role.position) > 0),
+      permissions: role.permissions
     })
   }
 

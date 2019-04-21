@@ -1,9 +1,11 @@
 const bot = require('./bot')
+const bodyParser = require('body-parser')
 const config = require('config')
 const cors = require('cors')
 const debug = require('debug')('brb:api')
 const express = require('express')
 const session = require('express-session')
+const Sequelize = require('sequelize')
 
 const primaryRouter = require('./routes')
 const decodeUserMiddleware = require('./utils/decodeUser')
@@ -14,6 +16,8 @@ const PORT = config.get('api.port')
 const app = express()
 
 // App wide middleware
+app.use(bodyParser.json())
+
 const whitelist = [config.get('api.frontendUrl'), config.get('api.apiUrl')]
 app.use(cors({
   origin: true,
@@ -46,12 +50,19 @@ app.use('/', primaryRouter) // Mount primary router for all requests
 app.use((err, req, res, next) => {
   if (!err) next()
 
+  if (err instanceof Sequelize.ValidationError) {
+    err.statusCode = 422
+    err.message = 'validation failed'
+    err.detail = err.errors
+  }
+
   if (err.statusCode >= 400 && err.statusCode < 500) {
     debug('%d %s %s %s', err.statusCode, req.method, req.url, err.message)
 
     return res.status(err.statusCode).json({
       status: err.statusCode,
-      message: err.message
+      message: err.message,
+      detail: err.detail || null
     })
   }
 

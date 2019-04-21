@@ -6,13 +6,16 @@ module.exports = (sequelize) => {
   Guild.init({
     snowflake: {
       type: Sequelize.STRING,
-      primaryKey: true
+      primaryKey: true,
+      allowNull: false
     },
     name: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      allowNull: false
     },
     iconHash: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      allowNull: false
     },
     memberCount: {
       type: Sequelize.INTEGER

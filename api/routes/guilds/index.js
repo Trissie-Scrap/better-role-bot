@@ -28,8 +28,18 @@ const ensureUserIsGuildAdmin = async (req, res, next) => {
       throw err
     }
 
-    for (const role of guild.roles) {
+    const guildRoles = await db.models.Role.findAll({
+      where: {
+        guildSnowflake: guild.snowflake
+      }
+    })
 
+    for (const role of guildRoles) {
+      if (member.roles.includes(role.snowflake)) {
+        if ((role.permissions & 8) === 8) {
+          return next()
+        }
+      }
     }
 
     // No role found with high enough priv, return 403
@@ -91,6 +101,20 @@ router.get('/:guildId/role-categories', async (req, res, next) => {
   }
 })
 
-router.post('/:guildId/role-categories')
+router.post('/:guildId/role-categories', ensureUserIsGuildAdmin, async (req, res, next) => {
+  try {
+    const newRoleCategory = await db.models.RoleCategory.build({
+      ...req.body,
+      serverSnowflake: req.params.guildId
+    })
+
+    await newRoleCategory.validate()
+
+    await newRoleCategory.save()
+    res.sendStatus(200)
+  } catch (e) {
+    next(e)
+  }
+})
 
 module.exports = router

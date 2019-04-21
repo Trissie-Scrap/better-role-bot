@@ -6,19 +6,27 @@ module.exports = (sequelize) => {
   Role.init({
     snowflake: {
       type: Sequelize.STRING,
-      primaryKey: true
+      primaryKey: true,
+      allowNull: false
     },
     name: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      allowNull: false
     },
     description: {
       type: Sequelize.STRING
     },
     color: {
-      type: Sequelize.BIGINT
+      type: Sequelize.BIGINT,
+      allowNull: false
     },
     assignable: {
-      type: Sequelize.BOOLEAN
+      type: Sequelize.BOOLEAN,
+      allowNull: false
+    },
+    permissions: {
+      type: Sequelize.BIGINT,
+      allowNull: false
     }
   }, { sequelize, modelName: 'role' })
 

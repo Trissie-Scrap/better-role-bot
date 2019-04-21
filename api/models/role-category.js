@@ -6,16 +6,20 @@ module.exports = (sequelize) => {
   RoleCategory.init({
     id: {
       type: Sequelize.STRING,
-      primaryKey: true
+      primaryKey: true,
+      allowNull: false
     },
     name: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      allowNull: false
     },
     description: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      allowNull: false
     },
     exclusive: {
-      type: Sequelize.BOOLEAN
+      type: Sequelize.BOOLEAN,
+      allowNull: false
     }
   }, { sequelize, modelName: 'roleCategory' })
 
