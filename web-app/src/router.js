@@ -30,6 +30,10 @@ export default new Router({
       component: () => import(/* webpackChunkName: "home" */ './views/HomeFromServer.vue')
     },
     {
+      path: '/login/success',
+      component: () => import(/* webpackChunkName: "loginSuccess" */ './views/LoginSuccess.vue')
+    },
+    {
       path: '*',
       name: '404',
       component: () => import(/* webpackChunkName: "404" */ './views/Err404.vue')

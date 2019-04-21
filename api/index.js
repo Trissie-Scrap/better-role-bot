@@ -14,7 +14,15 @@ const PORT = config.get('api.port')
 const app = express()
 
 // App wide middleware
-app.use(cors())
+const whitelist = [config.get('api.frontendUrl'), config.get('api.apiUrl')]
+app.use(cors({
+  origin: true,
+  credentials: true
+}))
+app.options('*', cors({
+  origin: true,
+  credentials: true
+}))
 
 app.use(session({
   secret: API_SECRET,

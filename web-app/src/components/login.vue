@@ -22,7 +22,7 @@
       </v-card-text>
 
       <v-card-actions>
-        <v-btn color="#5440cd" large block><v-icon left>mdi-discord</v-icon> Authorise this app</v-btn>
+        <v-btn color="#5440cd" large block @click="login($route.path)"><v-icon left>mdi-discord</v-icon> Authorise this app</v-btn>
       </v-card-actions>
 
     </v-card>
@@ -31,12 +31,16 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'DiscordLogin',
   data () {
     return {
       isLoggedIn: false
     }
+  },
+  methods: {
+    ...mapActions('users', ['login'])
   }
 }
 </script>

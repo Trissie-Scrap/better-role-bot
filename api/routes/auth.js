@@ -6,6 +6,7 @@ const router = require('express').Router()
 const CLIENT_ID = config.get('discord.clientId')
 const CLIENT_SECRET = config.get('discord.clientSecret')
 const API_URL = config.get('api.apiUrl')
+const FRONTEND_URL = config.get('api.frontendUrl')
 
 const redirect = encodeURIComponent(`${API_URL}/auth/callback`)
 
@@ -52,10 +53,7 @@ router.get('/callback', async (req, res, next) => {
     req.session.authData = authData
     req.session.userData = userData
 
-    if (req.session.postAuthRedirect) {
-      return res.redirect(req.session.postAuthRedirect)
-    }
-    res.status(200).json(userData)
+    res.redirect(`${FRONTEND_URL}/#/login/success?return=${req.session.postAuthRedirect}`)
   } catch (e) {
     next(e)
   }

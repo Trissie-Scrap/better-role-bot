@@ -85,17 +85,30 @@
     </v-layout>
 
     <v-layout>
-      <DiscordLogin />
+      <DiscordLogin v-if="!isLoggedIn" />
+      <div v-else>
+        <p>
+          Hello {{ loggedInUser.username }}
+        </p>
+      </div>
     </v-layout>
   </div>
 </template>
 
 <script>
 import DiscordLogin from '../components/login'
+import { mapGetters, mapState } from 'vuex'
+
 export default {
   name: 'Tester',
   components: {
     DiscordLogin
+  },
+  computed: {
+    ...mapGetters('users', ['isLoggedIn']),
+    ...mapState('users', {
+      loggedInUser: state => state.me
+    })
   }
 }
 </script>

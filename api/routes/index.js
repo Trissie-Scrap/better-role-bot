@@ -8,6 +8,6 @@ const user = require('./user')
 
 // Apply routes
 router.use('/auth', auth)
-router.use('/user', ensureAuthMiddleware, user)
+router.use('/users', ensureAuthMiddleware, user)
 
 module.exports = router
