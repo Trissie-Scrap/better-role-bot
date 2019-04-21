@@ -1,25 +1,27 @@
-module.exports = (sequelize, DataTypes) => {
-  class RoleCategory extends sequelize.Model {}
+const Sequelize = require('sequelize')
+
+module.exports = (sequelize) => {
+  class RoleCategory extends Sequelize.Model {}
 
   RoleCategory.init({
     id: {
-      type: DataTypes.STRING,
+      type: Sequelize.STRING,
       primaryKey: true
     },
     name: {
-      type: DataTypes.STRING
+      type: Sequelize.STRING
     },
     description: {
-      type: DataTypes.STRING
+      type: Sequelize.STRING
     },
     exclusive: {
-      type: DataTypes.BOOLEAN
+      type: Sequelize.BOOLEAN
     }
   }, { sequelize, modelName: 'roleCategory' })
 
   RoleCategory.associate = models => {
     RoleCategory.hasMany(models.Role, { foreignKey: 'categoryId', targetKey: 'id' })
-    RoleCategory.belongsTo(models.Server, { foreignKey: 'serverSnowflake', targetKey: 'snowflake' })
+    RoleCategory.belongsTo(models.Guild, { foreignKey: 'guildSnowflake', targetKey: 'snowflake' })
   }
 
   return RoleCategory

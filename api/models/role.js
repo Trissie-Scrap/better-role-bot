@@ -1,25 +1,30 @@
-module.exports = (sequelize, DataTypes) => {
-  class Role extends sequelize.Model {}
+const Sequelize = require('sequelize')
+
+module.exports = (sequelize) => {
+  class Role extends Sequelize.Model {}
 
   Role.init({
     snowflake: {
-      type: DataTypes.BIGINT,
+      type: Sequelize.STRING,
       primaryKey: true
     },
     name: {
-      type: DataTypes.STRING
+      type: Sequelize.STRING
     },
     description: {
-      type: DataTypes.STRING
+      type: Sequelize.STRING
     },
     color: {
-      type: DataTypes.BIGINT
+      type: Sequelize.BIGINT
+    },
+    assignable: {
+      type: Sequelize.BOOLEAN
     }
   }, { sequelize, modelName: 'role' })
 
   Role.associate = models => {
     Role.belongsTo(models.RoleCategory, { foreignKey: 'categoryId', targetKey: 'id' })
-    Role.belongsTo(models.Server, { foreignKey: 'serverSnowflake', targetKey: 'snowflake' })
+    Role.belongsTo(models.Guild, { foreignKey: 'guildSnowflake', targetKey: 'snowflake' })
   }
 
   return Role

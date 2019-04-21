@@ -11,9 +11,9 @@
     "clientSecret": null
   },
   "db": {
-    "database": null,
-    "host": null,
-    "password": null,
-    "user": null
+    "database": "brb",
+    "host": "localhost",
+    "pass": "yeet",
+    "user": "root"
   }
 }

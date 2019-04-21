@@ -33,12 +33,14 @@ sequelize
 sequelize.models = {
   Role: sequelize.import('./models/role.js'),
   RoleCategory: sequelize.import('./models/role-category.js'),
-  Server: sequelize.import('./models/server.js')
+  Guild: sequelize.import('./models/guild.js')
 }
 
 for (const model in sequelize.models) {
   debug('setting up associations for ' + model)
   sequelize.models[model].associate && sequelize.models[model].associate(sequelize.models)
 }
+
+sequelize.sync()
 
 module.exports = sequelize

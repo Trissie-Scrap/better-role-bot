@@ -53,7 +53,6 @@ app.use((err, req, res, next) => {
 })
 
 // Listen
-
 app.listen(PORT, () => {
   debug(`listening for requests on ${PORT}`)
 })

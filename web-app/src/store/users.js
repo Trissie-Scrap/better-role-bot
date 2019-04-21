@@ -23,7 +23,7 @@ const actions = {
     login(returnPath)
   },
   fetchMe: async ({ commit, dispatch }) => {
-    dispatch('wait/start', 'user.fetchMe', { root: true })
+    dispatch('wait/start', 'users.fetchMe', { root: true })
 
     try {
       const me = await fetchMe()
@@ -31,7 +31,7 @@ const actions = {
     } catch (e) {
       dispatch('alerts/throwError', e, { root: true })
     } finally {
-      dispatch('wait/end', 'user.fetchMe', { root: true })
+      dispatch('wait/end', 'users.fetchMe', { root: true })
     }
   }
 }
