@@ -1,8 +1,11 @@
 <template>
   <v-app dark>
     <v-toolbar app>
+      <v-toolbar-side-icon>
+        <v-img :src="require('./assets/BetterRoleBot_Icon_NoBg.svg')" />
+      </v-toolbar-side-icon>
       <v-toolbar-title class="headline text-uppercase">
-        <span>Better Role Bot</span>
+        <span class="appName">Better Role Bot</span>
         <span class="font-weight-light">: For all your role-based needs</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
@@ -33,3 +36,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .appName {
+    font-family: 'Share Tech Mono', monospace;
+  }
+</style>

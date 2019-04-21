@@ -6,12 +6,12 @@ import 'vuetify/src/stylus/app.styl'
 Vue.use(Vuetify, {
   iconfont: 'md',
   theme: {
-    primary: '#607d8b',
-    secondary: '#3f51b5',
-    accent: '#009688',
-    error: '#f44336',
-    warning: '#ff9800',
-    info: '#03a9f4',
-    success: '#8bc34a'
+    primary: '#2B767A',
+    secondary: '#7AB8BB',
+    accent: '#39DBBD',
+    error: '#E02914',
+    warning: '#B8816E',
+    info: '#3BC487',
+    success: '#38BA3E'
   }
 })
