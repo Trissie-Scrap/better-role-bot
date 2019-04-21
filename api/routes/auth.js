@@ -10,20 +10,16 @@ const FRONTEND_URL = config.get('api.frontendUrl')
 
 const redirect = encodeURIComponent(`${API_URL}/auth/callback`)
 
-/**
- * Direct user to Discord for Oauth2
- */
+// direct user to discord to start oauth pathway
 router.get('/', (req, res) => {
-  if (req.query.return) { // Allow app to specify redirect for end of process
+  if (req.query.return) { // allow app to specify redirect for end of process
     req.session.postAuthRedirect = req.query.return
   }
 
   res.redirect(`https://discordapp.com/api/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${redirect}&response_type=code&scope=identify%20guilds`)
 })
 
-/**
- * Handle user returning from discord. Direct user to front-end site.
- */
+// handle callback from discord as part of oauth pathway
 router.get('/callback', async (req, res, next) => {
   try {
     if (!req.query.code) throw new Error('missing callback code from discord')
@@ -59,6 +55,7 @@ router.get('/callback', async (req, res, next) => {
   }
 })
 
+// allows users to add bot to their guild
 router.get('/bot', (req, res) => {
   res.redirect(`https://discordapp.com/api/oauth2/authorize?client_id=${CLIENT_ID}&scope=bot&permissions=268435456`)
 })

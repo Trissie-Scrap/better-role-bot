@@ -2,6 +2,7 @@ const db = require('../../db')
 const discordApi = require('../../utils/discord-api')
 const router = require('express').Router()
 
+// ensures a user is logged in and is an admin on the guild
 const ensureUserIsGuildAdmin = async (req, res, next) => {
   try {
     if (!(req.user && req.user.snowflake)) throw new Error('missing user id')
@@ -52,10 +53,12 @@ const ensureUserIsGuildAdmin = async (req, res, next) => {
   }
 }
 
+// get all guilds, for admin use
 router.get('/', async (req, res) => {
   res.sendStatus(403) // admin only and not implemented
 })
 
+// get general guild info
 router.get('/:guildId', async (req, res, next) => {
   try {
     const guild = await db.models.Guild.findByPk(req.params.guildId)
@@ -73,6 +76,7 @@ router.get('/:guildId', async (req, res, next) => {
   }
 })
 
+// get roles for guild
 router.get('/:guildId/roles', async (req, res, next) => {
   try {
     const roles = await db.models.Role.findAll({
@@ -87,6 +91,7 @@ router.get('/:guildId/roles', async (req, res, next) => {
   }
 })
 
+// get role categories for guild
 router.get('/:guildId/role-categories', async (req, res, next) => {
   try {
     const roleCategories = await db.models.RoleCategory.findAll({
@@ -101,6 +106,7 @@ router.get('/:guildId/role-categories', async (req, res, next) => {
   }
 })
 
+// create new role category for guild
 router.post('/:guildId/role-categories', ensureUserIsGuildAdmin, async (req, res, next) => {
   try {
     const newRoleCategory = await db.models.RoleCategory.build({

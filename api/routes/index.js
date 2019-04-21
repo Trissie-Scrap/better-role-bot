@@ -2,12 +2,12 @@ const router = require('express').Router()
 
 const ensureAuthMiddleware = require('../utils/ensureAuth')
 
-// Require routes
+// require routes
 const auth = require('./auth')
 const user = require('./user')
 const guilds = require('./guilds')
 
-// Apply routes
+// apply routes
 router.use('/auth', auth)
 router.use('/users', ensureAuthMiddleware, user)
 router.use('/guilds', ensureAuthMiddleware, guilds)
