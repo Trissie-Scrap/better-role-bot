@@ -92,8 +92,25 @@
         </p>
       </div>
     </v-layout>
+
+    <v-layout
+      wrap
+      flex-child
+    >
+      <v-flex>
+        <v-img max-width="512" :src="require('../assets/BetterRoleBot_Icon.svg')" />
+      </v-flex>
+
+      <v-flex>
+        <v-img max-width="512" :src="require('../assets/BetterRoleBot_Icon_NoBg.svg')" />
+      </v-flex>
+    </v-layout>
   </div>
 </template>
+
+<style scoped>
+
+</style>
 
 <script>
 import DiscordLogin from '../components/login'

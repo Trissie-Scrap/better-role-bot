@@ -1,6 +1,13 @@
 <template>
   <div>
-    <p>You logged in succesfully... redirecting.</p>
+    <v-layout
+      flex-child
+      wrap
+    >
+      <v-flex>
+        <p>You logged in succesfully... redirecting.</p>
+      </v-flex>
+    </v-layout>
   </div>
 </template>
 

@@ -1,22 +1,28 @@
 <template>
-  <v-layout
-    flex-child
-    wrap
-  >
-    <v-flex
-      text-xs-center
-      xs12
+  <div>
+    <v-layout
+      justify-center
     >
-      <h1>Welcome to the BetterRoleBot homepage.</h1>
-    </v-flex>
+      <v-flex
+        xs4
+      >
+        <v-img :src="require('../assets/BetterRoleBot_Icon.svg')" />
+      </v-flex>
+    </v-layout>
 
-    <v-flex
-      text-xs-center
-      xs12
+    <v-layout
+      justify-center
+      flex-child
+      wrap
     >
-      <h2>Please log in with <i>Discord <v-icon>mdi-discord</v-icon></i> to continue</h2>
-    </v-flex>
-  </v-layout>
+      <v-flex
+        text-xs-center
+        xs10
+      >
+        <h2>Please log in with <i>Discord <v-icon>mdi-discord</v-icon></i> to continue</h2>
+      </v-flex>
+    </v-layout>
+    </div>
 </template>
 
 <script>
