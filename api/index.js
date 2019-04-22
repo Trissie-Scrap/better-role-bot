@@ -1,20 +1,25 @@
 const bot = require('./bot')
+const bodyParser = require('body-parser')
 const config = require('config')
 const cors = require('cors')
+const db = require('./db')
 const debug = require('debug')('brb:api')
 const express = require('express')
 const session = require('express-session')
+const SessionStore = require('connect-session-sequelize')(session.Store)
 
 const primaryRouter = require('./routes')
 const decodeUserMiddleware = require('./utils/decodeUser')
+const errorHandlerMiddleware = require('./utils/errorHandler')
 
 const API_SECRET = config.get('api.secret')
 const PORT = config.get('api.port')
 
 const app = express()
 
-// App wide middleware
-const whitelist = [config.get('api.frontendUrl'), config.get('api.apiUrl')]
+// app wide middleware
+app.use(bodyParser.json())
+
 app.use(cors({
   origin: true,
   credentials: true
@@ -24,43 +29,27 @@ app.options('*', cors({
   credentials: true
 }))
 
+// setup sessions
 app.use(session({
   secret: API_SECRET,
+  store: new SessionStore({
+    db
+  }),
   resave: false,
   saveUninitialized: false
 }))
 
 app.use(decodeUserMiddleware)
 
-// Routes and Routers
-
+// routes and routers
 app.get('/healthz', (req, res) => {
   res.status(200).json({
     status: 'ready for requests'
   })
 })
 
-app.use('/', primaryRouter) // Mount primary router for all requests
-
-// error handler
-app.use((err, req, res, next) => {
-  if (!err) next()
-
-  if (err.statusCode >= 400 && err.statusCode < 500) {
-    debug('%d %s %s %s', err.statusCode, req.method, req.url, err.message)
-
-    return res.status(err.statusCode).json({
-      status: err.statusCode,
-      message: err.message
-    })
-  }
-
-  debug('an error occurred handling a request to %s %s \n %O', req.method, req.originalUrl, err)
-  res.status(500).json({
-    status: 500,
-    message: 'a server error occurred. sorry :)'
-  })
-})
+app.use('/', primaryRouter) // mount primary router for all requests
+app.use(errorHandlerMiddleware) // clean errors for responses and log them
 
 // Listen
 app.listen(PORT, () => {

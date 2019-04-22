@@ -7,7 +7,7 @@ const DB_DATABASE = config.get('db.database')
 const DB_USER = config.get('db.user')
 const DB_PASS = config.get('db.pass')
 
-/* Initialize database */
+// init database pool
 const sequelize = new Sequelize({
   host: DB_HOST,
   username: DB_USER,
@@ -16,7 +16,7 @@ const sequelize = new Sequelize({
   dialect: 'mysql'
 })
 
-/* Attempt connection to check details */
+// check connection details
 sequelize
   .authenticate()
   .then(() => {
@@ -29,7 +29,7 @@ sequelize
     process.exit(1)
   })
 
-/* Load in models */
+// load models and setup associations
 sequelize.models = {
   Role: sequelize.import('./models/role.js'),
   RoleCategory: sequelize.import('./models/role-category.js'),
@@ -41,6 +41,7 @@ for (const model in sequelize.models) {
   sequelize.models[model].associate && sequelize.models[model].associate(sequelize.models)
 }
 
+// TODO: Don't run this in prod :)
 sequelize.sync()
 
 module.exports = sequelize
