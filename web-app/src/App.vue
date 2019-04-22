@@ -4,9 +4,14 @@
       <v-toolbar-side-icon>
         <v-img :src="require('./assets/BetterRoleBot_Icon_NoBg.svg')" />
       </v-toolbar-side-icon>
-      <v-toolbar-title class="headline text-uppercase">
-        <span class="appName">Better Role Bot</span>
-        <span class="font-weight-light">: For all your role-based needs</span>
+      <v-toolbar-title class="headline text-uppercase" :style="cssProps">
+
+        <div class="hidden-sm-and-up"><v-img width="100" :src="require('./assets/BetterRoleBot_Tag.png')" /></div>
+
+        <span class="appName hidden-xs-only"><span class="firstB">B</span>etter <span class="R">R</span>ole <span class="secondB">B</span>ot</span>
+
+        <span class="font-weight-light hidden-sm-and-down">:For all your role-based needs</span>
+
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn
@@ -33,11 +38,31 @@ export default {
     return {
       //
     }
+  },
+  computed: {
+    cssProps () {
+      return {
+        '--primary-base': this.$vuetify.theme.primary,
+        '--secondary-base': this.$vuetify.theme.secondary,
+        '--accent-base': this.$vuetify.theme.accent
+      }
+    }
   }
 }
 </script>
 
 <style scoped>
+
+  .firstB {
+    color: var(--accent-base)
+  }
+  .R {
+    color: var(--secondary-base)
+  }
+  .secondB {
+    color: var(--primary-base)
+  }
+
   .appName {
     font-family: 'Share Tech Mono', monospace;
   }

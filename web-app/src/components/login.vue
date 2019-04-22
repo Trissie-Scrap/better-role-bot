@@ -1,23 +1,22 @@
 <template>
-  <v-layout
-    wrap
-    flex-child
-    class="text-xs-center"
+  <v-flex
+    xs10
+    sm6
+    md4
+    my-4
   >
-
     <v-card
-      max-width="500"
       color="#36393F"
     >
 
-      <v-card-title
-
-      >
+      <v-card-title>
+        <v-spacer />
         <v-icon large left>mdi-discord</v-icon>
         <span class="title font-weight-light">Login with Discord</span>
+        <v-spacer />
       </v-card-title>
 
-      <v-card-text class="text">
+      <v-card-text class="text-xs-center">
         Sign in with discord to fiddle with your roles
       </v-card-text>
 
@@ -26,8 +25,7 @@
       </v-card-actions>
 
     </v-card>
-
-  </v-layout>
+  </v-flex>
 </template>
 
 <script>

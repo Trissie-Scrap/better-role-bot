@@ -12,22 +12,29 @@
 
     <v-layout
       justify-center
-      flex-child
-      wrap
     >
-      <v-flex
-        text-xs-center
-        xs10
-      >
-        <h2>Please log in with <i>Discord <v-icon>mdi-discord</v-icon></i> to continue</h2>
-      </v-flex>
+
+      <DiscordLogin />
+
     </v-layout>
+
     </div>
 </template>
 
 <script>
+import DiscordLogin from '../components/login'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
-  components: { }
+  name: 'Home',
+  components: {
+    DiscordLogin
+  },
+  computed: {
+    ...mapGetters('users', ['isLoggedIn']),
+    ...mapState('users', {
+      loggedInUser: state => state.me
+    })
+  }
 }
 </script>
