@@ -2,9 +2,11 @@ const bot = require('./bot')
 const bodyParser = require('body-parser')
 const config = require('config')
 const cors = require('cors')
+const db = require('./db')
 const debug = require('debug')('brb:api')
 const express = require('express')
 const session = require('express-session')
+const SessionStore = require('connect-session-sequelize')(session.Store)
 
 const primaryRouter = require('./routes')
 const decodeUserMiddleware = require('./utils/decodeUser')
@@ -30,6 +32,9 @@ app.options('*', cors({
 // setup sessions
 app.use(session({
   secret: API_SECRET,
+  store: new SessionStore({
+    db
+  }),
   resave: false,
   saveUninitialized: false
 }))

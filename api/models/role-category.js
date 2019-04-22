@@ -1,14 +1,10 @@
+const crypto = require('crypto')
 const Sequelize = require('sequelize')
 
 module.exports = (sequelize) => {
   class RoleCategory extends Sequelize.Model {}
 
   RoleCategory.init({
-    id: {
-      type: Sequelize.STRING,
-      primaryKey: true,
-      allowNull: false
-    },
     name: {
       type: Sequelize.STRING,
       allowNull: false
@@ -25,7 +21,7 @@ module.exports = (sequelize) => {
 
   RoleCategory.associate = models => {
     RoleCategory.hasMany(models.Role, { foreignKey: 'categoryId', targetKey: 'id' })
-    RoleCategory.belongsTo(models.Guild, { foreignKey: 'guildSnowflake', targetKey: 'snowflake' })
+    RoleCategory.belongsTo(models.Guild, { foreignKey: { name: 'guildSnowflake', allowNull: false }, targetKey: 'snowflake' })
   }
 
   return RoleCategory

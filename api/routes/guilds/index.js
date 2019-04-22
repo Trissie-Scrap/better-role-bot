@@ -111,13 +111,49 @@ router.post('/:guildId/role-categories', ensureUserIsGuildAdmin, async (req, res
   try {
     const newRoleCategory = await db.models.RoleCategory.build({
       ...req.body,
-      serverSnowflake: req.params.guildId
+      guildSnowflake: req.params.guildId
     })
 
     await newRoleCategory.validate()
 
     await newRoleCategory.save()
-    res.sendStatus(200)
+    res.status(200).json({})
+  } catch (e) {
+    next(e)
+  }
+})
+
+// set category for role
+router.patch('/:guildId/roles/:roleId', ensureUserIsGuildAdmin, async (req, res, next) => {
+  try {
+    if (!req.body.categoryId) {
+      const err = new Error('no category specified')
+      err.statusCode = 422
+
+      throw err
+    }
+
+    const category = await db.models.RoleCategory.findByPk(req.body.categoryId)
+    if (!category) {
+      const err = new Error('specified category does not exist')
+      err.statusCode = 422
+
+      throw err
+    }
+
+    const role = await db.models.Role.findByPk(req.params.roleId)
+    if (!role) {
+      const err = new Error('role not found')
+      err.statusCode = 404
+
+      throw err
+    }
+
+    await role.update({
+      categoryId: req.body.categoryId
+    })
+
+    res.status(200).json({})
   } catch (e) {
     next(e)
   }

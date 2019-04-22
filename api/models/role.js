@@ -32,7 +32,7 @@ module.exports = (sequelize) => {
 
   Role.associate = models => {
     Role.belongsTo(models.RoleCategory, { foreignKey: 'categoryId', targetKey: 'id' })
-    Role.belongsTo(models.Guild, { foreignKey: 'guildSnowflake', targetKey: 'snowflake' })
+    Role.belongsTo(models.Guild, { foreignKey: { name: 'guildSnowflake', allowNull: false }, targetKey: 'snowflake' })
   }
 
   return Role
