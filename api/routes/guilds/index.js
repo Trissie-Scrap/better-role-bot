@@ -2,10 +2,16 @@ const db = require('../../db')
 const discordApi = require('../../utils/discord-api')
 const router = require('express').Router()
 
-// ensures a user is logged in and is an admin on the guild
-const ensureUserIsGuildAdmin = async (req, res, next) => {
+// ensures a user is logged in, and in guild. Adds req.guild and req.member
+const ensureUserIsInGuild = async (req, res, next) => {
   try {
-    if (!(req.user && req.user.snowflake)) throw new Error('missing user id')
+    if (!(req.user && req.user.snowflake)) {
+      const err = Error('missing user session')
+      err.statusCode = 403
+
+      throw err
+    }
+
     if (!req.params.guildId) {
       const err = new Error('missing guild id')
       err.statusCode = 422
@@ -29,14 +35,26 @@ const ensureUserIsGuildAdmin = async (req, res, next) => {
       throw err
     }
 
+    req.guild = guild
+    req.member = member
+
+    next()
+  } catch (e) {
+    next(e)
+  }
+}
+
+// Ensures that user is a guild admin
+const ensureUserIsGuildAdmin = async (req, res, next) => {
+  try {
     const guildRoles = await db.models.Role.findAll({
       where: {
-        guildSnowflake: guild.snowflake
+        guildSnowflake: req.guild.snowflake
       }
     })
 
     for (const role of guildRoles) {
-      if (member.roles.includes(role.snowflake)) {
+      if (req.member.roles.includes(role.snowflake)) {
         if ((role.permissions & 8) === 8) {
           return next()
         }
@@ -107,7 +125,7 @@ router.get('/:guildId/role-categories', async (req, res, next) => {
 })
 
 // create new role category for guild
-router.post('/:guildId/role-categories', ensureUserIsGuildAdmin, async (req, res, next) => {
+router.post('/:guildId/role-categories', ensureUserIsInGuild, ensureUserIsGuildAdmin, async (req, res, next) => {
   try {
     const newRoleCategory = await db.models.RoleCategory.build({
       ...req.body,
@@ -124,7 +142,7 @@ router.post('/:guildId/role-categories', ensureUserIsGuildAdmin, async (req, res
 })
 
 // set category for role
-router.patch('/:guildId/roles/:roleId', ensureUserIsGuildAdmin, async (req, res, next) => {
+router.patch('/:guildId/roles/:roleId', ensureUserIsInGuild, ensureUserIsGuildAdmin, async (req, res, next) => {
   try {
     if (!req.body.categoryId) {
       const err = new Error('no category specified')
@@ -154,6 +172,43 @@ router.patch('/:guildId/roles/:roleId', ensureUserIsGuildAdmin, async (req, res,
     })
 
     res.status(200).json({})
+  } catch (e) {
+    next(e)
+  }
+})
+
+// gets categories of roles on server, and lists what the user holds
+router.get('/:guildId/members/@me/roles', ensureUserIsInGuild, async (req, res, next) => {
+  try {
+    const categories = await db.models.RoleCategory.findAll({
+      where: {
+        guildSnowflake: req.params.guildId
+      }
+    })
+
+    const roles = await db.models.Role.findAll({
+      where: {
+        guildSnowflake: req.parems.guildId
+      }
+    })
+
+    const memberRoles = req.member.roles
+
+    const data = []
+    for (let category in categories) {
+      category = category.get({ plain: true })
+      category.roles = []
+
+      const categoryRoles = roles.filter(role => role.categoryId === category.id)
+      for (let role in categoryRoles) {
+        role = role.get({ plain: true })
+        role.memberHas = memberRoles.includes(memberRoles)
+
+        category.roles.push(role)
+      }
+    }
+
+    res.status(200).json(data)
   } catch (e) {
     next(e)
   }
