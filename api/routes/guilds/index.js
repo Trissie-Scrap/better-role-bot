@@ -135,14 +135,38 @@ router.post('/:guildId/role-categories', ensureUserIsInGuild, ensureUserIsGuildA
     await newRoleCategory.validate()
 
     await newRoleCategory.save()
-    res.status(200).json({})
+    res.status(201).json(newRoleCategory)
+  } catch (e) {
+    next(e)
+  }
+})
+
+// put role category
+router.put('/:guildId/role-categories/:categoryId', ensureUserIsInGuild, ensureUserIsGuildAdmin, async (req, res, next) => {
+  try {
+    const roleCategory = await db.models.RoleCategory.findByPk(req.params.categoryId)
+
+    if (!roleCategory || roleCategory.guildSnowflake !== req.params.guildId) {
+      const err = new Error('specified role-category does not exist in specified guild')
+      err.statusCode = 404
+
+      throw err
+    }
+
+    await roleCategory.update({
+      name: req.body.name,
+      description: req.body.description,
+      exclusive: req.body.exclusive
+    })
+
+    res.status(200).json(roleCategory)
   } catch (e) {
     next(e)
   }
 })
 
 // set category for role
-router.patch('/:guildId/roles/:roleId', ensureUserIsInGuild, ensureUserIsGuildAdmin, async (req, res, next) => {
+router.put('/:guildId/roles/:roleId', ensureUserIsInGuild, ensureUserIsGuildAdmin, async (req, res, next) => {
   try {
     if (!req.body.categoryId) {
       const err = new Error('no category specified')
@@ -152,16 +176,16 @@ router.patch('/:guildId/roles/:roleId', ensureUserIsInGuild, ensureUserIsGuildAd
     }
 
     const category = await db.models.RoleCategory.findByPk(req.body.categoryId)
-    if (!category) {
-      const err = new Error('specified category does not exist')
+    if (!category || category.guildSnowflake !== req.params.guildId) {
+      const err = new Error('specified category does not exist in specified guild')
       err.statusCode = 422
 
       throw err
     }
 
     const role = await db.models.Role.findByPk(req.params.roleId)
-    if (!role) {
-      const err = new Error('role not found')
+    if (!role || role.guildSnowflake !== req.params.guildId) {
+      const err = new Error('specified role does not exist in specified guild')
       err.statusCode = 404
 
       throw err
@@ -171,7 +195,7 @@ router.patch('/:guildId/roles/:roleId', ensureUserIsInGuild, ensureUserIsGuildAd
       categoryId: req.body.categoryId
     })
 
-    res.status(200).json({})
+    res.status(200).json(role)
   } catch (e) {
     next(e)
   }
@@ -188,23 +212,23 @@ router.get('/:guildId/members/@me/roles', ensureUserIsInGuild, async (req, res, 
 
     const roles = await db.models.Role.findAll({
       where: {
-        guildSnowflake: req.parems.guildId
+        guildSnowflake: req.params.guildId
       }
     })
 
     const memberRoles = req.member.roles
 
     const data = []
-    for (let category in categories) {
-      category = category.get({ plain: true })
-      category.roles = []
+    for (const category of categories) {
+      const categoryPlain = category.get({ plain: true })
+      categoryPlain.roles = []
 
       const categoryRoles = roles.filter(role => role.categoryId === category.id)
-      for (let role in categoryRoles) {
-        role = role.get({ plain: true })
-        role.memberHas = memberRoles.includes(memberRoles)
-
-        category.roles.push(role)
+      for (const role of categoryRoles) {
+        category.roles.push({
+          ...role.get({ plain: true }),
+          memberHas: memberRoles.includes(role.snowflake)
+        })
       }
     }
 
