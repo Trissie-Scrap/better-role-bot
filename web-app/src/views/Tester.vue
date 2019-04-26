@@ -104,6 +104,10 @@
       <v-flex>
         <v-img max-width="512" :src="require('../assets/BetterRoleBot_Icon_NoBg.svg')" />
       </v-flex>
+
+      <v-flex>
+        <FlipLogo />
+      </v-flex>
     </v-layout>
   </div>
 </template>
@@ -115,11 +119,13 @@
 <script>
 import DiscordLogin from '../components/login'
 import { mapGetters, mapState } from 'vuex'
+import FlipLogo from '../components/FlipLogo.vue'
 
 export default {
   name: 'Tester',
   components: {
-    DiscordLogin
+    DiscordLogin,
+    FlipLogo
   },
   computed: {
     ...mapGetters('users', ['isLoggedIn']),
