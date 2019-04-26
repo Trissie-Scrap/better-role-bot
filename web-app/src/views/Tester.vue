@@ -12,7 +12,7 @@
           class="d-flex"
           color="primary"
           height="160"
-        ><sheet-footer>Primary</sheet-footer></v-sheet>
+        >Primary</v-sheet>
       </v-flex>
 
       <v-flex
@@ -22,7 +22,7 @@
           class="d-flex"
           color="secondary"
           height="160"
-        ><sheet-footer>Secondary</sheet-footer></v-sheet>
+        >Secondary</v-sheet>
       </v-flex>
 
       <v-flex
@@ -32,7 +32,7 @@
           class="d-flex"
           color="accent"
           height="160"
-        ><sheet-footer>Accent</sheet-footer></v-sheet>
+        >Accent</v-sheet>
       </v-flex>
 
       <v-flex
@@ -42,7 +42,7 @@
           class="d-flex"
           color="error"
           height="160"
-        ><sheet-footer>Error</sheet-footer></v-sheet>
+        >Error</v-sheet>
       </v-flex>
 
     </v-layout>
@@ -59,7 +59,7 @@
           class="d-flex"
           color="warning"
           height="160"
-        ><sheet-footer>Warning</sheet-footer></v-sheet>
+        >Warning</v-sheet>
       </v-flex>
 
       <v-flex
@@ -69,7 +69,7 @@
           class="d-flex"
           color="info"
           height="160"
-        ><sheet-footer>Info</sheet-footer></v-sheet>
+        >Info</v-sheet>
       </v-flex>
 
       <v-flex
@@ -79,7 +79,7 @@
           class="d-flex"
           color="success"
           height="160"
-        ><sheet-footer>Success</sheet-footer></v-sheet>
+        >Success</v-sheet>
       </v-flex>
 
     </v-layout>
@@ -109,6 +109,13 @@
         <FlipLogo />
       </v-flex>
     </v-layout>
+
+    <v-layout justify-center>
+      <v-flex xs5>
+        <ManageGuild />
+      </v-flex>
+    </v-layout>
+    <br />
   </div>
 </template>
 
@@ -117,15 +124,17 @@
 </style>
 
 <script>
-import DiscordLogin from '../components/login'
+import DiscordLogin from '../components/DiscordLogin'
 import { mapGetters, mapState } from 'vuex'
-import FlipLogo from '../components/FlipLogo.vue'
+import FlipLogo from '../components/AnimLogo.vue'
+import ManageGuild from '../components/ManageGuild.vue'
 
 export default {
   name: 'Tester',
   components: {
     DiscordLogin,
-    FlipLogo
+    FlipLogo,
+    ManageGuild
   },
   computed: {
     ...mapGetters('users', ['isLoggedIn']),

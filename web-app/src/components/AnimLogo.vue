@@ -1,8 +1,6 @@
 <template>
   <v-flex>
-    <section>
-      <v-img class="flasher" :src="require('../assets/BetterRoleBot_Icon.svg')" />
-    </section>
+    <v-img class="flasher" :src="require('../assets/BetterRoleBot_Icon.svg')" />
   </v-flex>
 </template>
 
@@ -18,22 +16,39 @@ export default {
 </script>
 
 <style scoped>
-section {
-  position: relative;
-}
-
-section v-img {
-  position: absolute
-}
 
 .flasher {
-  animation-name: fade;
+  animation-name: bounce;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
   animation-duration: 5s;
 }
-@keyframes fade {
+
+.flasher:hover {
+  animation-name: spin;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-duration: 2s;
+}
+
+@keyframes spin {
   0% {
+    transform: rotateY(0deg);
+  }
+
+  50% {
+    transform: rotateY(180deg)
+  }
+
+  100% {
+    transform: rotateY(0deg);
+  }
+}
+
+@keyframes bounce {
+
+  0% {
+    opacity: 1;
     transform: translateY(0%);
   }
 
@@ -50,12 +65,12 @@ section v-img {
     transform: rotateZ(0deg);
   }
 
-  70% {
-    transform: rotateZ(-1.5deg);
+  71% {
+    transform: rotateZ(-1deg);
   }
 
-  75% {
-    transform: rotateZ(1.5deg);
+  74% {
+    transform: rotateZ(1deg);
   }
 
   80% {

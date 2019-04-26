@@ -24,8 +24,8 @@
 </template>
 
 <script>
-import DiscordLogin from '../components/login'
-import FlipLogo from '../components/FlipLogo'
+import DiscordLogin from '../components/DiscordLogin'
+import FlipLogo from '../components/AnimLogo'
 import { mapGetters, mapState } from 'vuex'
 
 export default {

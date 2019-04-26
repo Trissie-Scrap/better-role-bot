@@ -1,9 +1,11 @@
 <template>
   <v-app dark>
     <v-toolbar app>
+      <router-link to="/">
       <v-toolbar-side-icon>
         <v-img :src="require('./assets/BetterRoleBot_Icon_NoBg.svg')" />
       </v-toolbar-side-icon>
+      </router-link>
       <v-toolbar-title class="headline text-uppercase" :style="cssProps">
 
         <div class="hidden-sm-and-up"><v-img width="100" :src="require('./assets/BetterRoleBot_Tag.png')" /></div>
