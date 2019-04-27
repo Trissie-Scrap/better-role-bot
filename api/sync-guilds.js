@@ -44,7 +44,7 @@ async function syncGuilds () {
 
   debug('%d guilds found', guildsAvailable.length)
 
-  const successInfo = {
+  const statusInfo = {
     available: guildsAvailable.length,
     errored: [],
     skipped: [],
@@ -56,8 +56,8 @@ async function syncGuilds () {
       const dbGuild = await db.models.Guild.findByPk(guild.id)
 
       if (dbGuild && dbGuild.syncedAt) {
-        if (((Date.now()) - dbGuild.syncedAt) < 5 * 60 * 1000) {
-          successInfo.skipped++
+        if (((Date.now()) - dbGuild.syncedAt) < 5 * 60 * 1000) { // Sync at most every 5 minutes.
+          statusInfo.skipped++
           continue
         }
       }
@@ -69,7 +69,9 @@ async function syncGuilds () {
         await db.models.Guild.upsert({
           ...guildData.guild,
           syncedAt: new Date().toISOString()
-        }, { transaction: t })
+        }, {
+          transaction: t
+        })
 
         // TODO: Something cleaner/smarter in handling roles disappearing
         await db.models.Role.destroy({
@@ -82,13 +84,13 @@ async function syncGuilds () {
         await db.models.Role.bulkCreate(guildData.roles, { transaction: t })
       })
 
-      successInfo.synced++
+      statusInfo.synced++
     } catch (e) {
-      successInfo.errored.push({ snowflake: guild.id, e })
+      statusInfo.errored.push({ snowflake: guild.id, e })
     }
   }
 
-  return successInfo
+  return statusInfo
 }
 
 syncGuilds()
