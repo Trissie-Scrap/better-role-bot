@@ -27,12 +27,12 @@ export default new Router({
     {
       path: '/g/:snowflake/u',
       name: 'userFlow',
-      component: () => import(/* webpackChunkName: "home" */ './views/UserFlow.vue')
+      component: () => import(/* webpackChunkName: "userFlow" */ './views/UserFlow.vue')
     },
     {
       path: '/g/:snowflake/a',
       name: 'adminFlow',
-      component: () => import(/* webpackChunkName: "home" */ './views/UserFlow.vue')
+      component: () => import(/* webpackChunkName: "adminFlow" */ './views/AdminFlow.vue')
     },
     {
       path: '/login/success',
