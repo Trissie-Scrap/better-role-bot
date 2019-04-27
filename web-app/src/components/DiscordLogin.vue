@@ -29,8 +29,15 @@
               <v-card>
                 <v-card-text>
                   We ask for your Username, User Avatar and the Guilds you're in.<br />
-                  We use your Username to identify you in a Guild and your avatar to improve your experience (So we can display it on your page).<br />
-                  We need to know what Guilds you're in so we can keep things up to date on our end.
+                  <ul>
+                    <li> We use your Username to identify you in a Guild</li>
+                    <li> We use your avatar to improve your experience (So we can display it on your page).</li>
+                    <li> We need to know what Guilds you're in so we can keep things up to date on our end.</li>
+                  </ul>
+                  We also store cookies on your device to ensure function when redirecting you.
+                  By authorising this app, you consent to the use of cookies.
+                  This authorisation can be revoked by deleting cookies from your browser,
+                  however it may cause the app to stop working
                 </v-card-text>
               </v-card>
             </v-expansion-panel-content>
