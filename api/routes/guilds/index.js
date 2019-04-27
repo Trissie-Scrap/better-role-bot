@@ -225,11 +225,13 @@ router.get('/:guildId/members/@me/roles', ensureUserIsInGuild, async (req, res, 
 
       const categoryRoles = roles.filter(role => role.categoryId === category.id)
       for (const role of categoryRoles) {
-        category.roles.push({
+        categoryPlain.roles.push({
           ...role.get({ plain: true }),
           memberHas: memberRoles.includes(role.snowflake)
         })
       }
+
+      data.push(categoryPlain)
     }
 
     res.status(200).json(data)

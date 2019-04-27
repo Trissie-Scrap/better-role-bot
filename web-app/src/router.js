@@ -25,9 +25,14 @@ export default new Router({
       component: () => import(/* webpackChunkName: "test" */ './views/Tester.vue')
     },
     {
-      path: '/g/:serverId',
-      name: 'home',
-      component: () => import(/* webpackChunkName: "home" */ './views/HomeFromServer.vue')
+      path: '/g/:snowflake/u',
+      name: 'userFlow',
+      component: () => import(/* webpackChunkName: "home" */ './views/UserFlow.vue')
+    },
+    {
+      path: '/g/:snowflake/a',
+      name: 'adminFlow',
+      component: () => import(/* webpackChunkName: "home" */ './views/UserFlow.vue')
     },
     {
       path: '/login/success',

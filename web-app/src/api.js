@@ -7,6 +7,34 @@ export function login (returnPath) {
 export async function fetchMe () {
   const res = await fetch(`${API_URL}/users/me`, { credentials: 'include' })
   const data = await res.json()
-  console.log(data)
+
+  return data
+}
+
+export async function fetchGuild (snowflake) {
+  const res = await fetch(`${API_URL}/guilds/${snowflake}`, { credentials: 'include' })
+  const data = await res.json()
+
+  return data
+}
+
+export async function fetchRoles (snowflake) {
+  const res = await fetch(`${API_URL}/guilds/${snowflake}/roles`, { credentials: 'include' })
+  const data = await res.json()
+
+  return data
+}
+
+export async function fetchCategories (snowflake) {
+  const res = await fetch(`${API_URL}/guilds/${snowflake}/role-categories`, { credentials: 'include' })
+  const data = await res.json()
+
+  return data
+}
+
+export async function fetchHeldRoles (snowflake) {
+  const res = await fetch(`${API_URL}/guilds/${snowflake}/members/@me/roles`, { credentials: 'include' })
+  const data = await res.json()
+
   return data
 }
