@@ -44,12 +44,22 @@ async function syncGuilds () {
 
   debug('%d guilds found', guildsAvailable.length)
 
+  const successInfo = {
+    available: guildsAvailable.length,
+    errored: [],
+    skipped: [],
+    synced: []
+  }
+
   for (const guild of guildsAvailable) {
     try {
       const dbGuild = await db.models.Guild.findByPk(guild.id)
 
-      if (dbGuild) {
-        debug(dbGuild)
+      if (dbGuild && dbGuild.syncedAt) {
+        if (((Date.now()) - dbGuild.syncedAt) < 5 * 60 * 1000) {
+          successInfo.skipped++
+          continue
+        }
       }
 
       const guildData = await getGuildSyncData(guild.id, bot.id)
@@ -71,15 +81,26 @@ async function syncGuilds () {
 
         await db.models.Role.bulkCreate(guildData.roles, { transaction: t })
       })
+
+      successInfo.synced++
     } catch (e) {
-      debug('failed to sync guild %s for \n %O', guild.id, e)
+      successInfo.errored.push({ snowflake: guild.id, e })
     }
   }
+
+  return successInfo
 }
 
 syncGuilds()
-  .then(() => {
-    debug('guilds synced successfully')
+  .then(results => {
+    debug('%d guilds available', results.available)
+    debug('%d guilds synced', results.synced)
+    debug('%d guilds skipped', results.skipped)
+    debug('%d guilds failed to sync', results.errored.length)
+
+    for (const { snowflake, e } of results.errored) {
+      debug('failed to sync guild %s for \n %O', snowflake, e)
+    }
   })
   .catch((e) => {
     debug('something went wrong %O', e)
