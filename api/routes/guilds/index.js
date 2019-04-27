@@ -204,37 +204,7 @@ router.put('/:guildId/roles/:roleId', ensureUserIsInGuild, ensureUserIsGuildAdmi
 // gets categories of roles on server, and lists what the user holds
 router.get('/:guildId/members/@me/roles', ensureUserIsInGuild, async (req, res, next) => {
   try {
-    const categories = await db.models.RoleCategory.findAll({
-      where: {
-        guildSnowflake: req.params.guildId
-      }
-    })
-
-    const roles = await db.models.Role.findAll({
-      where: {
-        guildSnowflake: req.params.guildId
-      }
-    })
-
-    const memberRoles = req.member.roles
-
-    const data = []
-    for (const category of categories) {
-      const categoryPlain = category.get({ plain: true })
-      categoryPlain.roles = []
-
-      const categoryRoles = roles.filter(role => role.categoryId === category.id)
-      for (const role of categoryRoles) {
-        categoryPlain.roles.push({
-          ...role.get({ plain: true }),
-          memberHas: memberRoles.includes(role.snowflake)
-        })
-      }
-
-      data.push(categoryPlain)
-    }
-
-    res.status(200).json(data)
+    res.status(200).json(req.member.roles)
   } catch (e) {
     next(e)
   }

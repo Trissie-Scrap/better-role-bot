@@ -10,7 +10,7 @@ const state = {
     },
     roles: [],
     categories: [],
-    held: []
+    heldRoles: []
   }
 }
 
@@ -24,8 +24,8 @@ const mutations = {
   setCategories: (state, categories) => {
     state.selected.categories = categories
   },
-  setHeldRoles: (state, held) => {
-    state.selected.held = held
+  setHeldRoles: (state, heldRoles) => {
+    state.selected.heldRoles = heldRoles
   }
 }
 
@@ -89,6 +89,17 @@ const actions = {
 }
 
 const getters = {
+  isGuildAdmin: state => {
+    for (const role of state.selected.roles) {
+      if (state.selected.heldRoles.includes(role.snowflake)) {
+        if ((role.permissions & 8) === 8) {
+          return true
+        }
+      }
+    }
+
+    return false
+  }
 }
 
 const module = {

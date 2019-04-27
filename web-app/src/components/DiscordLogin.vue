@@ -1,8 +1,8 @@
 <template >
   <v-flex
-    xs10
-    sm6
-    md4
+    xs12
+    sm8
+    md6
     my-4
   >
     <v-hover>

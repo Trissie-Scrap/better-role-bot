@@ -27,7 +27,9 @@
     </v-toolbar>
 
     <v-content>
-      <router-view/>
+      <v-container grid-list-md>
+        <router-view/>
+      </v-container>
     </v-content>
   </v-app>
 </template>
