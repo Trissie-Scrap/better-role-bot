@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "set DEBUG=* && node index.js"
+    "serve": "set DEBUG=* && node index.js",
+    "sync": "set DEBUG=* && node sync-guilds.js"
   },
   "author": "Noah Stride and Lewis Miller",
   "license": "UNLICENSED",

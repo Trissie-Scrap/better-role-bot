@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div v-if="!isLoggedIn">
     <v-layout
       row
       justify-center
@@ -18,18 +19,19 @@
     >
       <DiscordLogin />
     </v-layout>
+    </div>
 
+    <div v-else>
     <v-layout
       justify-center
       row
-      v-else
     >
-      {{ this.selectedGuild }}
-      {{ this.selectedRoles }}
-      {{ this.selectedCategories }}
-      {{ this.heldRoles }}
+      {{ this.selectedGuild }}<br />
+      {{ this.selectedRoles }}<br />
+      {{ this.selectedCategories }}<br />
+      {{ this.heldRoles }}<br />
     </v-layout>
-
+    </div>
   </div>
 </template>
 
