@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: 'CategoryView',
+  name: 'UserCategoryView',
   props: { 'guild': Object, 'category': Object },
   data () {
     return {

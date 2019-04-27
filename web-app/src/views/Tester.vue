@@ -127,7 +127,7 @@
 import DiscordLogin from '../components/DiscordLogin'
 import { mapGetters, mapState } from 'vuex'
 import FlipLogo from '../components/AnimLogo.vue'
-import ManageGuild from '../components/ManageGuild.vue'
+import ManageGuild from '../components/UserManageGuild.vue'
 
 export default {
   name: 'Tester',
