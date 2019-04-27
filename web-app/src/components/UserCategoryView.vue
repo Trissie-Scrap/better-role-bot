@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { getColourString } from '../utils.js'
 export default {
   name: 'UserCategoryView',
   props: { 'guild': Object, 'category': Object },
@@ -39,16 +40,7 @@ export default {
         this.roles = this.guild.allRoles.filter(role => this.category.members.includes(role.snowflake))
       }
     },
-    getColourString: (colourAsNumber) => {
-      let colourAsString = colourAsNumber.toString(16)
-      while (colourAsString.length < 6) {
-        colourAsString = '0' + colourAsString
-      }
-      /* console.log('number: ' + colourAsNumber)
-      console.log('  Result: ' + colourAsString)
-      console.log() */
-      return '#' + colourAsString
-    }
+    getColourString
   }
 }
 </script>

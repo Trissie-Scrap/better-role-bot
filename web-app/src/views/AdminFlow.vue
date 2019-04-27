@@ -27,7 +27,6 @@
 
     <div v-else>
       <v-layout
-        class="pt2"
         justify-center
         row
         wrap
@@ -46,23 +45,29 @@
         <v-flex md12>
           <v-card>
             <v-tabs
+              grow
             >
+
               <v-tab ripple>
                 Roles
               </v-tab>
+
               <v-tab ripple>
                 Categories
               </v-tab>
+
               <v-tab-item>
                 <v-card-text>
-                  {{ this.selectedRoles }}
+                  <AdminRoleViewer />
                 </v-card-text>
               </v-tab-item>
+
               <v-tab-item>
                 <v-card-text>
                   {{ this.selectedCategories }}
                 </v-card-text>
               </v-tab-item>
+
             </v-tabs>
           </v-card>
         </v-flex>
@@ -75,12 +80,14 @@
 import DiscordLogin from '../components/DiscordLogin'
 import FlipLogo from '../components/AnimLogo'
 import { mapGetters, mapState, mapActions } from 'vuex'
+import AdminRoleViewer from '../components/AdminRoleViewer'
 
 export default {
   name: 'AdminFlow',
   components: {
     DiscordLogin,
-    FlipLogo
+    FlipLogo,
+    AdminRoleViewer
   },
   created () {
     this.$watch(this.$route.params.snowflake, () => {
