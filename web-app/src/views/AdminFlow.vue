@@ -73,13 +73,16 @@
 
                 <v-tab-item>
                   <v-card-text>
-                    <AdminRoleViewer />
+                    <AdminRoleViewer
+                      v-for="role in this.roles"
+                      :key="role.snowflake"
+                      :snowflake="role.snowflake"/>
                   </v-card-text>
                 </v-tab-item>
 
                 <v-tab-item>
                   <v-card-text>
-                    {{ selectedCategories }}
+                    {{ categories }}
                   </v-card-text>
                 </v-tab-item>
 
@@ -123,8 +126,8 @@ export default {
     }),
     ...mapState('guilds', {
       selectedGuild: state => state.selected.guild,
-      selectedRoles: state => state.selected.roles,
-      selectedCategories: state => state.selected.categories
+      roles: state => state.selected.roles,
+      categories: state => state.selected.categories
     })
   },
   methods: {
