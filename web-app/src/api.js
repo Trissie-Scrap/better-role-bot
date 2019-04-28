@@ -58,7 +58,7 @@ export function putRole (guild, role, body) {
 }
 
 export function fetchCategories (snowflake) {
- return apiFetch(`${API_URL}/guilds/${snowflake}/role-categories`)
+  return apiFetch(`${API_URL}/guilds/${snowflake}/role-categories`)
 }
 
 export function fetchHeldRoles (snowflake) {

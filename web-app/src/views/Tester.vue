@@ -106,13 +106,19 @@
       </v-flex>
 
       <v-flex>
-        <FlipLogo />
+        <FlipLogo :use-as-load="false" />
       </v-flex>
     </v-layout>
 
     <v-layout justify-center>
       <v-flex xs5>
         <ManageGuild />
+      </v-flex>
+    </v-layout>
+
+    <v-layout justify-center>
+      <v-flex xs10>
+        <FlipLogo use-as-load />
       </v-flex>
     </v-layout>
     <br />

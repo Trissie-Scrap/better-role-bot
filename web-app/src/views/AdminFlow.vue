@@ -10,6 +10,7 @@
           xs4
         >
           <FlipLogo />
+
         </v-flex>
       </v-layout>
 
@@ -23,7 +24,12 @@
 
     <v-wait for="guilds.fetchGuildData">
       <template slot="waiting">
-        make some sexy animation lewis cus this bitch is loading
+        <v-layout justify-center>
+          <v-flex xs8>
+            <FlipLogo use-as-load /><br />
+            <LoaderText />
+          </v-flex>
+        </v-layout>
       </template>
 
       <div v-if="!selectedGuild.snowflake">
@@ -91,13 +97,15 @@ import DiscordLogin from '../components/DiscordLogin'
 import FlipLogo from '../components/AnimLogo'
 import { mapGetters, mapState, mapActions } from 'vuex'
 import AdminRoleViewer from '../components/AdminRoleViewer'
+import LoaderText from '../components/LoaderText.vue'
 
 export default {
   name: 'AdminFlow',
   components: {
     DiscordLogin,
     FlipLogo,
-    AdminRoleViewer
+    AdminRoleViewer,
+    LoaderText
   },
   watch: {
     '$route.params.snowflake': {

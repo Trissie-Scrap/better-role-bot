@@ -1,34 +1,37 @@
 <template>
   <v-flex>
-    <v-img class="flasher" :src="require('../assets/BetterRoleBot_Icon.svg')" />
+    <v-img :class="load ? 'spinner' : 'bouncer'" :src="require('../assets/BetterRoleBot_Icon.svg')" />
   </v-flex>
 </template>
 
 <script>
+// import Anime from 'animejs'
+
 export default {
   name: 'FlipLogo',
+  props: { useAsLoad: Boolean },
   data () {
-    return { }
-  },
-  methods: { }
-
+    return {
+      load: this.useAsLoad === true
+    }
+  }
 }
+
 </script>
 
 <style scoped>
-
-.flasher {
+.bouncer {
   animation-name: bounce;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
   animation-duration: 5s;
 }
 
-.flasher:hover {
+.spinner {
   animation-name: spin;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
-  animation-duration: 2s;
+  animation-duration: 4s;
 }
 
 @keyframes spin {
