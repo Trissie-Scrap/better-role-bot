@@ -35,13 +35,12 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 
 export default {
   name: 'App',
-  data () {
-    return {
-      //
-    }
+  created () {
+    this.fetchMe()
   },
   computed: {
     cssProps () {
@@ -51,6 +50,9 @@ export default {
         '--accent-base': this.$vuetify.theme.accent
       }
     }
+  },
+  methods: {
+    ...mapActions('users', ['fetchMe'])
   }
 }
 </script>

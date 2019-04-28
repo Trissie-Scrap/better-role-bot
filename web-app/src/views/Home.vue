@@ -16,7 +16,7 @@
       row
     >
 
-      <DiscordLogin />
+      <h4>Put some instructions on this page for using the bot or adding to guild</h4>
 
     </v-layout>
 
@@ -24,21 +24,12 @@
 </template>
 
 <script>
-import DiscordLogin from '../components/DiscordLogin'
 import FlipLogo from '../components/AnimLogo'
-import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'Home',
   components: {
-    DiscordLogin,
     FlipLogo
-  },
-  computed: {
-    ...mapGetters('users', ['isLoggedIn']),
-    ...mapState('users', {
-      loggedInUser: state => state.me
-    })
   }
 }
 </script>

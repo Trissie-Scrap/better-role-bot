@@ -1,9 +1,10 @@
 const API_URL = process.env.VUE_APP_API || 'http://localhost:9000'
 
-function apiFetch(url, config, body) {
+async function apiFetch (url, config, body) {
+  if (!config) config = {}
   if (!config.headers) config.headers = {}
   if (['put', 'post'].includes(config.method)) {
-    config.headers['Content-Type']  = 'application/json'
+    config.headers['Content-Type'] = 'application/json'
   }
 
   if (config.body) {
@@ -12,54 +13,54 @@ function apiFetch(url, config, body) {
 
   config.credentials = 'include'
 
-  return fetch(url, config)
+  const res = await fetch(url, config)
+  const data = res.json()
+
+  if (!res.ok) {
+    const err = new Error(data.message)
+    err.statusCode = res.status
+    err.detail = data.details
+
+    throw err
+  }
+
+  return data
 }
 
 export function login (returnPath) {
   window.location.href = `${API_URL}/auth?return=${encodeURIComponent(returnPath)}`
 }
 
-export async function fetchMe () {
-  const res = await apiFetch(`${API_URL}/users/me`)
-  const data = await res.json()
-
-  return data
+export function fetchMe () {
+  return apiFetch(`${API_URL}/users/me`)
 }
 
-export async function fetchGuild (snowflake) {
-  const res = await apiFetch(`${API_URL}/guilds/${snowflake}`)
-  const data = await res.json()
-
-  return data
+export function fetchGuild (snowflake) {
+  return apiFetch(`${API_URL}/guilds/${snowflake}`)
 }
 
-export async function fetchRoles (snowflake) {
-  const res = await apiFetch(`${API_URL}/guilds/${snowflake}/roles`)
-  const data = await res.json()
-
-  return data
+export function fetchRoles (snowflake) {
+  return apiFetch(`${API_URL}/guilds/${snowflake}/roles`)
 }
 
-export async function putRole (guild, role, body) {
-  const res = await apiFetch(`${API_URL}/guilds/${guild}/roles/${role}`, {
+export function postRole (guild, body) {
+  return apiFetch(`${API_URL}/guilds/${guild}/roles`, {
+    body,
+    method: 'post'
+  })
+}
+
+export function putRole (guild, role, body) {
+  return apiFetch(`${API_URL}/guilds/${guild}/roles/${role}`, {
     body,
     method: 'put'
   })
-  const data = await res.json()
-
-  return data
 }
 
-export async function fetchCategories (snowflake) {
-  const res = await apiFetch(`${API_URL}/guilds/${snowflake}/role-categories`)
-  const data = await res.json()
-
-  return data
+export function fetchCategories (snowflake) {
+ return apiFetch(`${API_URL}/guilds/${snowflake}/role-categories`)
 }
 
-export async function fetchHeldRoles (snowflake) {
-  const res = await apiFetch(`${API_URL}/guilds/${snowflake}/members/@me/roles`)
-  const data = await res.json()
-
-  return data
+export function fetchHeldRoles (snowflake) {
+  return apiFetch(`${API_URL}/guilds/${snowflake}/members/@me/roles`)
 }

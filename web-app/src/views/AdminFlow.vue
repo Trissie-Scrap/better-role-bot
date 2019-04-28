@@ -21,58 +21,68 @@
       </v-layout>
     </div>
 
-    <div v-else-if="!isGuildAdmin">
-      <h1> You aren't an admin in this guild, you bleedin idiot </h1>
-    </div>
+    <v-wait for="guilds.fetchGuildData">
+      <template slot="waiting">
+        make some sexy animation lewis cus this bitch is loading
+      </template>
 
-    <div v-else>
-      <v-layout
-        justify-center
-        row
-        wrap
-      >
-        <v-flex md12>
-          <v-card>
-            <v-card-title>
-              <h2 class="display-2">{{ this.selectedGuild.name }}</h2>
-            </v-card-title>
-            <v-card-text>
-              {{ this.selectedGuild }}<br />
-            </v-card-text>
-          </v-card>
-        </v-flex>
+      <div v-if="!selectedGuild.snowflake">
+        <h1> This guild doesn't exist </h1>
+      </div>
 
-        <v-flex md12>
-          <v-card>
-            <v-tabs
-              grow
-            >
+      <div v-else-if="!isGuildAdmin">
+        <h1> You aren't an admin in this guild, you bleedin idiot </h1>
+      </div>
 
-              <v-tab ripple>
-                Roles
-              </v-tab>
+      <div v-else>
+        <v-layout
+          justify-center
+          row
+          wrap
+        >
+          <v-flex md12>
+            <v-card>
+              <v-card-title>
+                <h2 class="display-2">{{ selectedGuild.name }}</h2>
+              </v-card-title>
+              <v-card-text>
+                {{ selectedGuild }}<br />
+              </v-card-text>
+            </v-card>
+          </v-flex>
 
-              <v-tab ripple>
-                Categories
-              </v-tab>
+          <v-flex md12>
+            <v-card>
+              <v-tabs
+                grow
+              >
 
-              <v-tab-item>
-                <v-card-text>
-                  <AdminRoleViewer />
-                </v-card-text>
-              </v-tab-item>
+                <v-tab ripple>
+                  Roles
+                </v-tab>
 
-              <v-tab-item>
-                <v-card-text>
-                  {{ this.selectedCategories }}
-                </v-card-text>
-              </v-tab-item>
+                <v-tab ripple>
+                  Categories
+                </v-tab>
 
-            </v-tabs>
-          </v-card>
-        </v-flex>
-      </v-layout>
-    </div>
+                <v-tab-item>
+                  <v-card-text>
+                    <AdminRoleViewer />
+                  </v-card-text>
+                </v-tab-item>
+
+                <v-tab-item>
+                  <v-card-text>
+                    {{ selectedCategories }}
+                  </v-card-text>
+                </v-tab-item>
+
+              </v-tabs>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </div>
+    </v-wait>
   </div>
 </template>
 
@@ -89,10 +99,13 @@ export default {
     FlipLogo,
     AdminRoleViewer
   },
-  created () {
-    this.$watch(this.$route.params.snowflake, () => {
-      this.fetchGuildData(this.$route.params.snowflake)
-    }, { immediate: true })
+  watch: {
+    '$route.params.snowflake': {
+      handler (snowflake) {
+        this.fetchGuildData(snowflake)
+      },
+      immediate: true
+    }
   },
   computed: {
     ...mapGetters('users', ['isLoggedIn']),

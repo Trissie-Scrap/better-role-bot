@@ -1,6 +1,6 @@
 import { fetchGuild, fetchRoles, fetchCategories, fetchHeldRoles } from '../api'
 
-const state = {
+const stateTemplate = {
   selected: {
     guild: {
       snowflake: '',
@@ -34,9 +34,9 @@ const actions = {
     dispatch('wait/start', 'guilds.fetchGuild', { root: true })
 
     try {
-      const me = await fetchGuild(snowflake)
-      commit('setGuild', me)
+      commit('setGuild', await fetchGuild(snowflake))
     } catch (e) {
+      commit('setGuild', stateTemplate.selected.guild)
       dispatch('alerts/throwError', e, { root: true })
     } finally {
       dispatch('wait/end', 'guilds.fetchGuild', { root: true })
@@ -46,9 +46,9 @@ const actions = {
     dispatch('wait/start', 'guilds.fetchRoles', { root: true })
 
     try {
-      const me = await fetchRoles(state.selected.guild.snowflake)
-      commit('setRoles', me)
+      commit('setRoles', await fetchRoles(state.selected.guild.snowflake))
     } catch (e) {
+      commit('setRoles', stateTemplate.selected.roles)
       dispatch('alerts/throwError', e, { root: true })
     } finally {
       dispatch('wait/end', 'guilds.fetchRoles', { root: true })
@@ -58,9 +58,9 @@ const actions = {
     dispatch('wait/start', 'guilds.fetchCategories', { root: true })
 
     try {
-      const me = await fetchCategories(state.selected.guild.snowflake)
-      commit('setCategories', me)
+      commit('setCategories', await fetchCategories(state.selected.guild.snowflake))
     } catch (e) {
+      commit('setCategories', stateTemplate.selected.categories)
       dispatch('alerts/throwError', e, { root: true })
     } finally {
       dispatch('wait/end', 'guilds.fetchCategories', { root: true })
@@ -70,21 +70,27 @@ const actions = {
     dispatch('wait/start', 'guilds.fetchHeldRoles', { root: true })
 
     try {
-      const me = await fetchHeldRoles(state.selected.guild.snowflake)
-      commit('setHeldRoles', me)
+      commit('setHeldRoles', await fetchHeldRoles(state.selected.guild.snowflake))
     } catch (e) {
+      commit('setHeldRoles', stateTemplate.selected.heldRoles)
       dispatch('alerts/throwError', e, { root: true })
     } finally {
       dispatch('wait/end', 'guilds.fetchHeldRoles', { root: true })
     }
   },
   fetchGuildData: async ({ commit, dispatch }, guildId) => {
-    await dispatch('fetchGuild', guildId)
+    dispatch('wait/start', 'guilds.fetchGuildData', { root: true })
 
-    await Promise.all([
-      dispatch('fetchRoles'),
-      dispatch('fetchCategories'),
-      dispatch('fetchHeldRoles')])
+    try {
+      await dispatch('fetchGuild', guildId)
+
+      await Promise.all([
+        dispatch('fetchRoles'),
+        dispatch('fetchCategories'),
+        dispatch('fetchHeldRoles')])
+    } finally {
+      dispatch('wait/end', 'guilds.fetchGuildData', { root: true })
+    }
   }
 }
 
@@ -104,7 +110,7 @@ const getters = {
 
 const module = {
   namespaced: true,
-  state,
+  stateTemplate,
   mutations,
   actions,
   getters

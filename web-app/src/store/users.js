@@ -1,6 +1,6 @@
 import { login, fetchMe } from '../api'
 
-const state = {
+const stateTemplate = {
   me: {
     username: null,
     snowflake: null,
@@ -29,7 +29,10 @@ const actions = {
       const me = await fetchMe()
       commit('setMe', me)
     } catch (e) {
-      dispatch('alerts/throwError', e, { root: true })
+      commit('setMe', stateTemplate.me)
+      if (!(e.statusCode && e.statusCode === 401)) {
+        dispatch('alerts/throwError', e, { root: true })
+      }
     } finally {
       dispatch('wait/end', 'users.fetchMe', { root: true })
     }
@@ -44,7 +47,7 @@ const getters = {
 
 const module = {
   namespaced: true,
-  state,
+  state: stateTemplate,
   mutations,
   actions,
   getters
