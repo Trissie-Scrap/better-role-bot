@@ -110,7 +110,7 @@ const getters = {
 
 const module = {
   namespaced: true,
-  stateTemplate,
+  state: stateTemplate,
   mutations,
   actions,
   getters
