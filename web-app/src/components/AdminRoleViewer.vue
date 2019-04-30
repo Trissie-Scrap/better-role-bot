@@ -26,7 +26,7 @@
             <v-layout wrap align-center justify-space-between>
               <v-flex xs4>
                 Role Category
-                <v-select :items="categories" item-value="id" item-text="name"/>
+                <v-select :items="categories" item-value="id" item-text="name" v-model="localRole.categoryId"/>
               </v-flex>
               <v-flex xs3>
                 <v-btn block color="accent" loading><v-icon left>mdi-content-save-settings</v-icon> Save</v-btn>
@@ -49,13 +49,29 @@ export default {
   props: {
     snowflake: String
   },
+  data () {
+    return {
+      localRole: {
+        categoryId: ''
+      }
+    }
+  },
   computed: {
     ...mapState('guilds', {
-      categories: state => state.selected.categories,
+      guildCategories: state => state.selected.categories,
       roles: state => state.selected.roles
     }),
     role () {
       return this.roles.find((role) => role.snowflake === this.snowflake)
+    },
+    categories () {
+      return [
+        {
+          id: '',
+          name: 'None Assigned'
+        },
+        ...this.guildCategories
+      ]
     }
   },
   methods: {
