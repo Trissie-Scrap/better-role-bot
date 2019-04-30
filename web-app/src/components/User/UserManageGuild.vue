@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import CategoryView from './UserCategoryView.vue'
+import CategoryView from '@/components/User/UserCategoryView.vue'
 
 export default {
   name: 'UserManageGuild',

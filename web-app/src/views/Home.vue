@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import FlipLogo from '../components/Home/AnimLogo'
+import FlipLogo from '@/components/Home/AnimLogo'
 
 export default {
   name: 'Home',

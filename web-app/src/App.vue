@@ -3,12 +3,12 @@
     <v-toolbar app>
       <router-link to="/">
       <v-toolbar-side-icon>
-        <v-img :src="require('./assets/BetterRoleBot_Icon_NoBg.svg')" />
+        <v-img :src="require('@/assets/BetterRoleBot_Icon_NoBg.svg')" />
       </v-toolbar-side-icon>
       </router-link>
       <v-toolbar-title class="headline text-uppercase" :style="cssProps">
 
-        <div class="hidden-sm-and-up"><v-img width="100" :src="require('./assets/BetterRoleBot_Tag.png')" /></div>
+        <div class="hidden-sm-and-up"><v-img width="100" :src="require('@/assets/BetterRoleBot_Tag.png')" /></div>
 
         <span class="appName hidden-xs-only"><span class="firstB">B</span>etter <span class="R">R</span>ole <span class="secondB">B</span>ot</span>
 

@@ -43,7 +43,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { getColourString } from '../../utils.js'
+import { getColourString } from '@/utils.js'
 
 export default {
   name: 'AdminRoleViewer',

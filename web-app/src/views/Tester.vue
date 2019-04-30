@@ -130,10 +130,10 @@
 </style>
 
 <script>
-import DiscordLogin from '../components/Home/DiscordLogin'
+import DiscordLogin from '@/components/Home/DiscordLogin'
 import { mapGetters, mapState } from 'vuex'
-import FlipLogo from '../components/Home/AnimLogo.vue'
-import ManageGuild from '../components/User/UserManageGuild.vue'
+import FlipLogo from '@/components/Home/AnimLogo.vue'
+import ManageGuild from '@/components/User/UserManageGuild.vue'
 
 export default {
   name: 'Tester',

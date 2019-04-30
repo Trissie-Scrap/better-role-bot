@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { getColourString } from '../../utils.js'
+import { getColourString } from '@/utils.js'
 export default {
   name: 'UserCategoryView',
   props: { 'guild': Object, 'category': Object },
