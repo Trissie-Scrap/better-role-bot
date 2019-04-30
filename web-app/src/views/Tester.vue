@@ -111,9 +111,7 @@
     </v-layout>
 
     <v-layout justify-center>
-      <v-flex xs5>
-        <ManageGuild />
-      </v-flex>
+      <DiscordLogin as-admin/>
     </v-layout>
 
     <v-layout justify-center>
@@ -133,14 +131,14 @@
 import DiscordLogin from '@/components/Home/DiscordLogin'
 import { mapGetters, mapState } from 'vuex'
 import FlipLogo from '@/components/Home/AnimLogo.vue'
-import ManageGuild from '@/components/User/UserManageGuild.vue'
+// import ManageGuild from '@/components/User/UserManageGuild.vue'
 
 export default {
   name: 'Tester',
   components: {
     DiscordLogin,
-    FlipLogo,
-    ManageGuild
+    FlipLogo // ,
+    // ManageGuild
   },
   computed: {
     ...mapGetters('users', ['isLoggedIn']),

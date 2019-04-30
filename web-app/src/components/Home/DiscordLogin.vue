@@ -38,6 +38,14 @@
                   By authorising this app, you consent to the use of cookies.
                   This authorisation can be revoked by deleting cookies from your browser,
                   however it may cause the app to stop working
+                  <div v-if="showAdminText" >
+                    Because you're logging in as an admin, we will also retrieve the following info from your guild:<br />
+                    <ul>
+                      <li>Guild name</li>
+                      <li>Guild roles</li>
+                      <li>Guild icon</li>
+                    </ul>
+                  </div>
                 </v-card-text>
               </v-card>
             </v-expansion-panel-content>
@@ -57,9 +65,11 @@
 import { mapActions } from 'vuex'
 export default {
   name: 'DiscordLogin',
+  props: { asAdmin: Boolean },
   data () {
     return {
-      isLoggedIn: false
+      isLoggedIn: false,
+      showAdminText: this.asAdmin === true
     }
   },
   methods: {
