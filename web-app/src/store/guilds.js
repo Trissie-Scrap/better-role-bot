@@ -1,4 +1,4 @@
-import { fetchGuild, fetchRoles, fetchCategories, fetchHeldRoles } from '../api'
+import { fetchGuild, fetchRoles, fetchCategories, createCategory, fetchHeldRoles } from '../api'
 
 const stateTemplate = {
   selected: {
@@ -23,6 +23,9 @@ const mutations = {
   },
   setCategories: (state, categories) => {
     state.selected.categories = categories
+  },
+  appendCategory: (state, category) => {
+    state.selected.categories.push(category)
   },
   setHeldRoles: (state, heldRoles) => {
     state.selected.heldRoles = heldRoles
@@ -64,6 +67,17 @@ const actions = {
       dispatch('alerts/throwError', e, { root: true })
     } finally {
       dispatch('wait/end', 'guilds.fetchCategories', { root: true })
+    }
+  },
+  createCategory: async ({ commit, dispatch, state }, category) => {
+    dispatch('wait/start', 'guilds.createCategory', { root: true })
+
+    try {
+      commit('appendCategory', await createCategory(state.selected.guild.snowflake, category))
+    } catch (e) {
+      dispatch('alerts/throwError', e, { root: true })
+    } finally {
+      dispatch('wait/end', 'guilds.createCategory', { root: true })
     }
   },
   fetchHeldRoles: async ({ commit, dispatch, state }) => {
