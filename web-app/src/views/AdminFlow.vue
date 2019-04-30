@@ -100,12 +100,12 @@
 </template>
 
 <script>
-import DiscordLogin from '../components/DiscordLogin'
-import FlipLogo from '../components/AnimLogo'
+import DiscordLogin from '../components/Home/DiscordLogin'
+import FlipLogo from '../components/Home/AnimLogo'
 import { mapGetters, mapState, mapActions } from 'vuex'
-import AdminRoleViewer from '../components/AdminRoleViewer'
-import LoaderText from '../components/LoaderText'
-import AdminCategoryCreator from '../components/AdminCategoryCreator'
+import AdminRoleViewer from '../components/Admin/AdminRoleViewer'
+import LoaderText from '../components/Home/LoaderText'
+import AdminCategoryCreator from '../components/Admin/AdminCategoryCreator'
 
 export default {
   name: 'AdminFlow',
