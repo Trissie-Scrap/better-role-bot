@@ -22,7 +22,7 @@
       </v-layout>
     </div>
 
-    <v-wait for="guilds.fetchGuildData">
+    <v-wait v-else for="guilds.fetchGuildData">
       <template slot="waiting">
         <v-layout justify-center>
           <v-flex xs8>
@@ -84,6 +84,10 @@
                   <v-card-text>
                     {{ categories }}
                   </v-card-text>
+
+                  <v-card-text>
+                    <AdminCategoryCreator />
+                  </v-card-text>
                 </v-tab-item>
 
               </v-tabs>
@@ -100,7 +104,8 @@ import DiscordLogin from '../components/DiscordLogin'
 import FlipLogo from '../components/AnimLogo'
 import { mapGetters, mapState, mapActions } from 'vuex'
 import AdminRoleViewer from '../components/AdminRoleViewer'
-import LoaderText from '../components/LoaderText.vue'
+import LoaderText from '../components/LoaderText'
+import AdminCategoryCreator from '../components/AdminCategoryCreator'
 
 export default {
   name: 'AdminFlow',
@@ -108,7 +113,8 @@ export default {
     DiscordLogin,
     FlipLogo,
     AdminRoleViewer,
-    LoaderText
+    LoaderText,
+    AdminCategoryCreator
   },
   watch: {
     '$route.params.snowflake': {

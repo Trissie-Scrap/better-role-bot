@@ -17,7 +17,8 @@
           <v-card-text>
 
             <v-alert :value="!role.assignable" type="warning">
-              Not Assignable: BRB cannot assign this role to users as it is not high enough in the role order
+              Not Assignable: BRB cannot assign this role to users as it is not high enough in the role order<br />
+              You can still add this role to a category but users will not be able to add it to themselves
             </v-alert>
 
           </v-card-text>
@@ -29,7 +30,7 @@
                 <v-select :items="categories" item-value="id" item-text="name" v-model="localRole.categoryId"/>
               </v-flex>
               <v-flex xs3>
-                <v-btn block color="accent" loading><v-icon left>mdi-content-save-settings</v-icon> Save</v-btn>
+                <v-btn block color="accent"><v-icon left>mdi-content-save-settings</v-icon> Save</v-btn>
               </v-flex>
             </v-layout>
           </v-card-actions>
