@@ -6,7 +6,7 @@
       </div>
     </v-card-title>
 
-    <v-form v-model="valid">
+    <v-form ref="form" v-model="valid">
       <v-layout wrap row>
         <v-flex grow>
           <v-text-field
@@ -75,7 +75,7 @@ export default {
   name: 'AdminCategoryCreator',
   data () {
     return {
-      currentCat: EMPTY_CAT, // meow
+      currentCat: { ...EMPTY_CAT }, // meow
       valid: false,
       rules: {
         name: [
@@ -94,7 +94,8 @@ export default {
     ...mapActions('guilds', ['createCategory']),
     submit: function () {
       this.createCategory(this.currentCat)
-      this.currentCat = EMPTY_CAT
+      this.currentCat = { ...EMPTY_CAT }
+      this.$refs.form.reset()
     }
   }
 }
