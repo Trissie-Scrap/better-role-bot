@@ -83,10 +83,6 @@
 
                 <v-tab-item>
                   <v-card-text>
-                    {{ categories }}
-                  </v-card-text>
-
-                  <v-card-text>
                     <AdminCategoryViewer
                       v-for="category in this.categories"
                       :key="category.id"

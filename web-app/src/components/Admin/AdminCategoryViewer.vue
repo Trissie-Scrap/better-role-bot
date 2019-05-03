@@ -22,37 +22,87 @@
           -->
 
           <v-card-text>
-            <!-- Text box - Name -->
-            <!-- Textarea - Description -->
-            <!-- Box of labels - Contained roles -->
-            <v-layout
-              flex-child
-              wrap
-              justify-center
-            >
-              <v-flex
-                md8
-                sm10
-                xs12
-                d-flex
-                text-xs-center
+            <v-form ref="form">
+              <v-layout
+                wrap
+                row
               >
-                <v-sheet
-                  color="grey lighten"
+                <!-- Text box - Name -->
+                <v-flex
+                  xs8
+                  sm6
+                  md5
                 >
-                  <v-chip>yeet</v-chip>
-                  <v-chip>yeet</v-chip>
-                  <v-chip>yeet</v-chip>
-                  <v-chip>yeet</v-chip>
-                </v-sheet>
-              </v-flex>
-            </v-layout>
+                  <v-text-field
+                    v-model="localCategory.name"
+                    :rules="rules.name"
+                    :counter="rules.maxNameLength"
+                    label="Category name"
+                    required
+                    class="pa-3"
+                  />
+                </v-flex>
+              </v-layout>
+                <!-- Textarea - Description -->
+
+              <v-layout
+                wrap
+                row
+              >
+                <v-flex
+                  xs12
+                >
+                  <v-textarea
+                    v-model="localCategory.description"
+                    :rules="rules.description"
+                    :counter="rules.maxDescriptionLength"
+                    label="Category description"
+                  />
+                </v-flex>
+              </v-layout>
+
+                <!-- Box of labels - Contained roles -->
+              <v-layout
+                wrap
+                row
+                justify-center
+              >
+                <v-flex
+                  md8
+                  sm10
+                  xs12
+                  d-flex
+                  text-xs-center
+                >
+                  <v-sheet
+                    color="grey lighten"
+                  >
+                    <v-chip>yeet</v-chip>
+                    <v-chip>yeet</v-chip>
+                    <v-chip>yeet</v-chip>
+                    <v-chip>yeet</v-chip>
+                  </v-sheet>
+                </v-flex>
+              </v-layout>
+            </v-form>
 
           </v-card-text>
 
           <v-card-actions>
             <v-spacer />
-            <v-btn color="error" @click="doDeleteCategory"><v-icon left>mdi-close</v-icon>Delete</v-btn>
+            <v-btn
+              color="info"
+            >
+              <v-icon left>mdi-content-save-settings</v-icon>
+            </v-btn>
+
+            <v-btn
+              color="error"
+              @click="doDeleteCategory"
+              :loading="$wait.is(`guilds.deleteCategory.${category.id}`)"
+            >
+                <v-icon left>mdi-close</v-icon>Delete
+            </v-btn>
           </v-card-actions>
 
         </v-card>
@@ -66,6 +116,9 @@
 import { mapState, mapActions } from 'vuex'
 import { getColourString } from '@/utils.js'
 
+const MAX_NAME_LENGTH = 255
+const MAX_DESCRIPTION_LENGTH = 511
+
 export default {
   name: 'AdminCategoryViewer',
   props: {
@@ -77,6 +130,17 @@ export default {
         description: '',
         name: '',
         exclusive: false
+      },
+      rules: {
+        name: [
+          n => !!n || 'We need you to name this. Sorry.',
+          n => n.length <= MAX_NAME_LENGTH || 'No one needs that long a category name. Not even you.'
+        ],
+        description: [
+          d => d.length <= MAX_DESCRIPTION_LENGTH || 'Long descriptions are good, but are they really going to read all that?'
+        ],
+        maxNameLength: MAX_NAME_LENGTH,
+        maxDescriptionLength: MAX_DESCRIPTION_LENGTH
       }
     }
   },
@@ -90,7 +154,7 @@ export default {
     ...mapActions('guilds', ['deleteCategory']),
     doDeleteCategory () {
       alert(`deleting the category`)
-      this.deleteCategory(category.id)
+      this.deleteCategory(this.category.id)
     },
     getColourString
   },
