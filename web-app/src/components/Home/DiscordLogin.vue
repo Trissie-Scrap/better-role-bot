@@ -39,11 +39,11 @@
                   This authorisation can be revoked by deleting cookies from your browser,
                   however it may cause the app to stop working
                   <div v-if="showAdminText" >
-                    Because you're logging in as an admin, we will also retrieve the following info from your guild:<br />
+                    Because you're logging in as an admin, we will also retrieve the following info from this guild:<br />
                     <ul>
-                      <li>Guild name</li>
-                      <li>Guild roles</li>
-                      <li>Guild icon</li>
+                      <li>Guild name &mdash; We need this so your users know what guild they're editing their roles for</li>
+                      <li>Guild roles &mdash; Do you really need to ask? Yes? So you can view and edit them here</li>
+                      <li>Guild icon &mdash; Pretty UX is very important to us. It should be important to you too</li>
                     </ul>
                   </div>
                 </v-card-text>

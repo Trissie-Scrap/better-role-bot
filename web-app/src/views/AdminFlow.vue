@@ -18,7 +18,7 @@
         justify-center
         row
       >
-        <DiscordLogin />
+        <DiscordLogin as-admin />
       </v-layout>
     </div>
 

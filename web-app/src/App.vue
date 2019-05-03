@@ -21,7 +21,7 @@
         href="https://github.com/strideynet/better-role-bot"
         target="_blank"
       >
-        <span class="mr-2">Check it out</span>
+        <span class="mr-2 hidden-sm-and-down">Check it out</span>
         <v-icon>mdi-github-circle</v-icon>
       </v-btn>
     </v-toolbar>

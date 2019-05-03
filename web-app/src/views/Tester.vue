@@ -84,8 +84,15 @@
 
     </v-layout>
 
-    <v-layout>
+    <v-layout wrap justify-center>
       <DiscordLogin v-if="!isLoggedIn" />
+      <div v-else>
+        <p>
+          Hello {{ loggedInUser.username }}
+        </p>
+      </div>
+
+      <DiscordLogin v-if="!isLoggedIn" as-admin />
       <div v-else>
         <p>
           Hello {{ loggedInUser.username }}
@@ -114,9 +121,22 @@
       <DiscordLogin as-admin/>
     </v-layout>
 
-    <v-layout justify-center>
+    <v-layout justify-center wrap>
       <v-flex xs10>
         <FlipLogo use-as-load />
+      </v-flex>
+      <v-flex xs12>
+        <v-btn block @click="hasConnection = !hasConnection">
+          <v-icon left>mdi-hexagon-{{ hasConnection ? 'outline' : 'slice-6' }}</v-icon>
+          Click to test internettiness
+          <v-icon right>mdi-hexagon-{{ hasConnection ? 'outline' : 'slice-6' }}</v-icon>
+        </v-btn>
+        <SnackBar :color="'error'" :show="hasConnection" >
+          <v-flex class="text title" text-xs-center>
+            You appear to be lacking an internet connection...<br />
+            You're going to need that
+          </v-flex>
+        </SnackBar>
       </v-flex>
     </v-layout>
     <br />
@@ -131,14 +151,19 @@
 import DiscordLogin from '@/components/Home/DiscordLogin'
 import { mapGetters, mapState } from 'vuex'
 import FlipLogo from '@/components/Home/AnimLogo.vue'
+import SnackBar from '@/components/Home/SnackBar.vue'
 // import ManageGuild from '@/components/User/UserManageGuild.vue'
 
 export default {
   name: 'Tester',
   components: {
     DiscordLogin,
-    FlipLogo // ,
+    FlipLogo,
+    SnackBar // ,
     // ManageGuild
+  },
+  data () {
+    return { hasConnection: true }
   },
   computed: {
     ...mapGetters('users', ['isLoggedIn']),
