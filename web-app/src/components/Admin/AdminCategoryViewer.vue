@@ -21,8 +21,33 @@
             Exclusive?
           -->
 
+          <v-card-text>
+            <!-- Text box - Name -->
+            <!-- Textarea - Description -->
+            <!-- Box of labels - Contained roles -->
+            <v-layout
+              flex-child
+              wrap
+            >
+              <v-flex
+                xs12
+                md4
+                d-flex
+              >
+                <v-sheet
+                  class="d-flex"
+                  color="grey lighten-3"
+                >
+                  <v-chip>yeet</v-chip>
+                </v-sheet>
+              </v-flex>
+            </v-layout>
+
+          </v-card-text>
+
           <v-card-actions>
-            <v-btn color="error"><v-icon left>mdi-cross</v-icon>Delete</v-btn>
+            <v-spacer />
+            <v-btn color="error"><v-icon left>mdi-close</v-icon>Delete</v-btn>
           </v-card-actions>
 
         </v-card>
