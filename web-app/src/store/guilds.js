@@ -1,4 +1,4 @@
-import { fetchGuild, fetchRoles, fetchCategories, createCategory, fetchHeldRoles } from '../api'
+import { fetchGuild, fetchRoles, fetchCategories, createCategory, deleteCategory, fetchHeldRoles } from '../api'
 
 const stateTemplate = {
   selected: {
@@ -26,6 +26,9 @@ const mutations = {
   },
   appendCategory: (state, category) => {
     state.selected.categories.push(category)
+  },
+  deleteCategory: (state, categoryId) => {
+    state.selected.categories = state.selected.categories.filter(category => category.id !== categoryId)
   },
   setHeldRoles: (state, heldRoles) => {
     state.selected.heldRoles = heldRoles
@@ -78,6 +81,18 @@ const actions = {
       dispatch('alerts/throwError', e, { root: true })
     } finally {
       dispatch('wait/end', 'guilds.createCategory', { root: true })
+    }
+  },
+  deleteCategory: async ({ commit, dispatch, state }, categoryId) => {
+    dispatch('wait/start', `guilds.deleteCategory.${categoryId}`, { root: true })
+
+    try {
+      await createCategory(state.selected.guild.snowflake, categoryId)
+      commit('deleteCategory', categoryId)
+    } catch (e) {
+      dispatch('alerts/throwError', e, { root: true })
+    } finally {
+      dispatch('wait/end', `guilds.deleteCategory.${categoryId}`, { root: true })
     }
   },
   fetchHeldRoles: async ({ commit, dispatch, state }) => {
