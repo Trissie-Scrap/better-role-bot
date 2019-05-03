@@ -87,7 +87,7 @@ const actions = {
     dispatch('wait/start', `guilds.deleteCategory.${categoryId}`, { root: true })
 
     try {
-      await createCategory(state.selected.guild.snowflake, categoryId)
+      await deleteCategory(state.selected.guild.snowflake, categoryId)
       commit('deleteCategory', categoryId)
     } catch (e) {
       dispatch('alerts/throwError', e, { root: true })
