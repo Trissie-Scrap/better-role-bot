@@ -6,45 +6,47 @@
       </div>
     </v-card-title>
 
-    <v-form ref="form" v-model="valid">
-      <v-layout wrap row>
-        <v-flex grow>
-          <v-text-field
-            v-model="currentCat.name"
-            :rules="rules.name"
-            :counter="rules.maxNameLength"
-            label="Category name"
-            required
-          />
-        </v-flex>
+    <v-card-text>
+      <v-form ref="form" v-model="valid">
+        <v-layout wrap row>
+          <v-flex grow>
+            <v-text-field
+              v-model="currentCat.name"
+              :rules="rules.name"
+              :counter="rules.maxNameLength"
+              label="Category name"
+              required
+            />
+          </v-flex>
 
-        <v-flex xs2>
+          <v-flex xs2>
 
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-              <v-switch
-                v-on="on"
-                v-model="currentCat.exclusive"
-                label="Exclusive"
-              />
-            </template>
-            <span>Make only one role selectable at a time</span>
-          </v-tooltip>
-        </v-flex>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-switch
+                  v-on="on"
+                  v-model="currentCat.exclusive"
+                  label="Exclusive"
+                />
+              </template>
+              <span>Make only one role selectable at a time</span>
+            </v-tooltip>
+          </v-flex>
 
-      </v-layout>
-      <v-layout>
+        </v-layout>
+        <v-layout>
 
-        <v-flex xs12>
-          <v-textarea
-            v-model="currentCat.description"
-            :rules="rules.description"
-            :counter="rules.maxDescriptionLength"
-            label="Category description"
-          />
-        </v-flex>
-      </v-layout>
-    </v-form>
+          <v-flex xs12>
+            <v-textarea
+              v-model="currentCat.description"
+              :rules="rules.description"
+              :counter="rules.maxDescriptionLength"
+              label="Category description"
+            />
+          </v-flex>
+        </v-layout>
+      </v-form>
+    </v-card-text>
 
     <v-card-actions>
       <v-btn
