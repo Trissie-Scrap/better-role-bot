@@ -29,6 +29,12 @@
     <v-content>
       <v-container grid-list-md>
         <router-view/>
+        <SnackBar :show="!isOnline" color="error">
+          <v-flex class="text title" text-xs-center>
+            You appear to be lacking an internet connection...<br />
+            You're going to need that
+          </v-flex>
+        </SnackBar>
       </v-container>
     </v-content>
   </v-app>
@@ -36,11 +42,20 @@
 
 <script>
 import { mapActions } from 'vuex'
+import SnackBar from '@/components/Home/SnackBar.vue'
 
 export default {
   name: 'App',
+  components: {
+    SnackBar
+  },
   created () {
     this.fetchMe()
+  },
+  data () {
+    return {
+      isOnline: true
+    }
   },
   computed: {
     cssProps () {
@@ -52,7 +67,14 @@ export default {
     }
   },
   methods: {
-    ...mapActions('users', ['fetchMe'])
+    ...mapActions('users', ['fetchMe']),
+    onOfflineChange (e) { this.isOnline = false },
+    onOnlineChange (e) { this.isOnline = true }
+  },
+  mounted () {
+    window.addEventListener('offline', this.onOfflineChange)
+    window.addEventListener('online', this.onOnlineChange)
+    this.isOnline = window.navigator.onLine
   }
 }
 </script>

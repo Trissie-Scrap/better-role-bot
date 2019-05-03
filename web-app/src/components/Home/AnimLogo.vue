@@ -1,6 +1,6 @@
 <template>
   <v-flex>
-    <v-img :class="load ? 'spinner' : 'bouncer'" :src="require('@/assets/BetterRoleBot_Icon.svg')" />
+    <v-img :max-height="load ? '70%' : null" :class="load ? 'spinner' : 'bouncer'" :src="require('@/assets/BetterRoleBot_Icon.svg')" />
   </v-flex>
 </template>
 
