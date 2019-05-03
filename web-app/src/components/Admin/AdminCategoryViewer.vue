@@ -28,16 +28,21 @@
             <v-layout
               flex-child
               wrap
+              justify-center
             >
               <v-flex
+                md8
+                sm10
                 xs12
-                md4
                 d-flex
+                text-xs-center
               >
                 <v-sheet
-                  class="d-flex"
-                  color="grey lighten-3"
+                  color="grey lighten"
                 >
+                  <v-chip>yeet</v-chip>
+                  <v-chip>yeet</v-chip>
+                  <v-chip>yeet</v-chip>
                   <v-chip>yeet</v-chip>
                 </v-sheet>
               </v-flex>
@@ -47,7 +52,7 @@
 
           <v-card-actions>
             <v-spacer />
-            <v-btn color="error"><v-icon left>mdi-close</v-icon>Delete</v-btn>
+            <v-btn color="error" @click="doDeleteCategory"><v-icon left>mdi-close</v-icon>Delete</v-btn>
           </v-card-actions>
 
         </v-card>
@@ -58,7 +63,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import { getColourString } from '@/utils.js'
 
 export default {
@@ -82,6 +87,11 @@ export default {
     })
   },
   methods: {
+    ...mapActions('guilds', ['deleteCategory']),
+    doDeleteCategory () {
+      alert(`deleting the category`)
+      this.deleteCategory(category.id)
+    },
     getColourString
   },
   watch: {
