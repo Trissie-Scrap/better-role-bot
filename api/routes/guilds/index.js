@@ -178,7 +178,7 @@ router.delete('/:guildId/role-categories/:categoryId', ensureUserIsInGuild, ensu
     }
 
     await db.transaction(async t => {
-      await db.models.Roles.update({
+      await db.models.Role.update({
         categoryId: null
       }, {
         transaction: t,
