@@ -64,6 +64,12 @@ export function createCategory (snowflake, body) {
   })
 }
 
+export function deleteCategory (guildSnowflake, categoryId, body) {
+  return apiFetch(`${API_URL}/guilds/${guildSnowflake}/role-categories/${categoryId}`, {
+    method: 'delete'
+  })
+}
+
 export function fetchCategories (snowflake) {
   return apiFetch(`${API_URL}/guilds/${snowflake}/role-categories`)
 }

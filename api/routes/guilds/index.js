@@ -154,9 +154,40 @@ router.put('/:guildId/role-categories/:categoryId', ensureUserIsInGuild, ensureU
     }
 
     await roleCategory.update({
-      name: req.body.name,
       description: req.body.description,
-      exclusive: req.body.exclusive
+      exclusive: req.body.exclusive,
+      name: req.body.name
+    })
+
+    res.status(200).json(roleCategory)
+  } catch (e) {
+    next(e)
+  }
+})
+
+// delete role category
+router.delete('/:guildId/role-categories/:categoryId', ensureUserIsInGuild, ensureUserIsGuildAdmin, async (req, res, next) => {
+  try {
+    const roleCategory = await db.models.RoleCategory.findByPk(req.params.categoryId)
+
+    if (!roleCategory || roleCategory.guildSnowflake !== req.params.guildId) {
+      const err = new Error('specified role-category does not exist in specified guild')
+      err.statusCode = 404
+
+      throw err
+    }
+
+    await db.transaction(async t => {
+      await db.models.Roles.update({
+        categoryId: null
+      }, {
+        transaction: t,
+        where: {
+          categoryId: roleCategory.id
+        }
+      })
+
+      await roleCategory.destroy({ transaction: t })
     })
 
     res.status(200).json(roleCategory)
@@ -205,6 +236,65 @@ router.put('/:guildId/roles/:roleId', ensureUserIsInGuild, ensureUserIsGuildAdmi
 router.get('/:guildId/members/@me/roles', ensureUserIsInGuild, async (req, res, next) => {
   try {
     res.status(200).json(req.member.roles)
+  } catch (e) {
+    next(e)
+  }
+})
+
+/**
+ * Set users roles
+ *
+ * User sends array of desired roles
+ *
+ * [
+ * {
+ *    id: 2,
+ *    roles: {
+ *      snowflake: true,
+ *      snowflake: false
+ *    }
+ * }
+ * ]
+ *
+ * validates users roles, then calculates a diff against the users held roles.
+ */
+router.put('/:guildId/members/@me/roles', ensureUserIsInGuild, async (req, res, next) => {
+  try {
+    const guildCategories = await db.models.RoleCategory.findAll({
+      where: {
+        guildSnowflake: req.params.guildId
+      }
+    })
+
+    const guildRoles = await db.models.Role.findAll({
+      where: {
+        guildSnowflake: req.params.guildId
+      }
+    })
+
+    const userRoles = req.member.roles
+
+    for (const category of req.body) {
+      const guildCategory = category.id && guildCategories.find(cat => cat.id === category.id)
+      if (!guildCategory) {
+        const err = new Error('specified category does not exist in guild')
+        err.statusCode = 422
+
+        throw err
+      }
+
+      const guildCategoryRoles = guildRoles.filter(role => role.categoryId === guildCategory.id)
+      for (const snowflake in guildCategory.roles) {
+        const guildRole = guildRoles.find(rl => rl.snowflake === snowflake)
+        if (!guildRole || guildRole.categoryId !== guildCategory.id || !guildRole.assignable) {
+          const err = new Error('specified role does not exist in guild/guild category or is not assignable')
+          err.statusCode = 422
+
+          throw err
+        }
+      }
+    }
+    res.status(200).json()
   } catch (e) {
     next(e)
   }
