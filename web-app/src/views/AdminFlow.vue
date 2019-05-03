@@ -87,6 +87,11 @@
 
                   <v-card-text>
                     <AdminCategoryCreator />
+
+                    <AdminCategoryViewer
+                      v-for="category in this.categories"
+                      :key="category.id"
+                    />
                   </v-card-text>
                 </v-tab-item>
 
@@ -106,6 +111,7 @@ import { mapGetters, mapState, mapActions } from 'vuex'
 import AdminRoleViewer from '@/components/Admin/AdminRoleViewer'
 import LoaderText from '@/components/Home/LoaderText'
 import AdminCategoryCreator from '@/components/Admin/AdminCategoryCreator'
+import AdminCategoryViewer from '@/components/Admin/AdminCategoryViewer'
 
 export default {
   name: 'AdminFlow',
@@ -114,7 +120,8 @@ export default {
     FlipLogo,
     AdminRoleViewer,
     LoaderText,
-    AdminCategoryCreator
+    AdminCategoryCreator,
+    AdminCategoryViewer
   },
   watch: {
     '$route.params.snowflake': {

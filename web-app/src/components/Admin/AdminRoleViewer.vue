@@ -77,6 +77,14 @@ export default {
   },
   methods: {
     getColourString
+  },
+  watch: {
+    role: {
+      handler (newRole) {
+        this.localRole = { ...newRole }
+      },
+      deep: true
+    }
   }
 }
 /* assignable, categoryId, color, createdAt, description, guildSnowflake, name, permissions, snowflake, updatedAt */
