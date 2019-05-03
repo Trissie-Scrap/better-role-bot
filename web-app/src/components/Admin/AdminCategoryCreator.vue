@@ -95,9 +95,13 @@ export default {
   methods: {
     ...mapActions('guilds', ['createCategory']),
     submit: function () {
-      this.createCategory(this.currentCat)
-      this.currentCat = { ...EMPTY_CAT }
-      this.$refs.form.reset()
+      if (this.$refs.form.validate()) {
+        this.createCategory(this.currentCat)
+        this.currentCat = { ...EMPTY_CAT }
+        this.$refs.form.reset()
+      } else {
+        alert('Cannot submit the form in its current state')
+      }
     }
   }
 }

@@ -76,7 +76,8 @@
                     <AdminRoleViewer
                       v-for="role in this.roles"
                       :key="role.snowflake"
-                      :snowflake="role.snowflake"/>
+                      :role="role"
+                    />
                   </v-card-text>
                 </v-tab-item>
 
@@ -86,12 +87,13 @@
                   </v-card-text>
 
                   <v-card-text>
-                    <AdminCategoryCreator />
-
                     <AdminCategoryViewer
                       v-for="category in this.categories"
                       :key="category.id"
+                      :category="category"
                     />
+
+                    <AdminCategoryCreator />
                   </v-card-text>
                 </v-tab-item>
 

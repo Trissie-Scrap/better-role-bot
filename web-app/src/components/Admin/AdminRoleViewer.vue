@@ -48,7 +48,7 @@ import { getColourString } from '@/utils.js'
 export default {
   name: 'AdminRoleViewer',
   props: {
-    snowflake: String
+    role: Object
   },
   data () {
     return {
@@ -59,12 +59,8 @@ export default {
   },
   computed: {
     ...mapState('guilds', {
-      guildCategories: state => state.selected.categories,
-      roles: state => state.selected.roles
+      guildCategories: state => state.selected.categories
     }),
-    role () {
-      return this.roles.find((role) => role.snowflake === this.snowflake)
-    },
     categories () {
       return [
         {
@@ -83,7 +79,8 @@ export default {
       handler (newRole) {
         this.localRole = { ...newRole }
       },
-      deep: true
+      deep: true,
+      immediate: true
     }
   }
 }

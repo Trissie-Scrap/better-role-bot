@@ -7,9 +7,9 @@
 
         <template v-slot:header>
           <div>
-            <v-icon v-if="role.color === 0" left>mdi-hexagon-outline</v-icon>
-            <v-icon v-else :color="getColourString(role.color)" left>mdi-hexagon-slice-6</v-icon>
-            {{ role.name }}
+            <!--v-icon v-if="role.color === 0" left>mdi-hexagon-outline</v-icon>
+            <v-icon v-else :color="getColourString(role.color)" left>mdi-hexagon-slice-6</v-icon-->
+            {{ category.name }}
           </div>
         </template>
 
@@ -20,6 +20,10 @@
             Rename category
             Exclusive?
           -->
+
+          <v-card-actions>
+            <v-btn color="error"><v-icon left>mdi-cross</v-icon>Delete</v-btn>
+          </v-card-actions>
 
         </v-card>
 
@@ -35,12 +39,14 @@ import { getColourString } from '@/utils.js'
 export default {
   name: 'AdminCategoryViewer',
   props: {
-    id: Number
+    category: Object
   },
   data () {
     return {
       localCategory: {
-        categoryId: 0
+        description: '',
+        name: '',
+        exclusive: false
       }
     }
   },
@@ -52,6 +58,15 @@ export default {
   },
   methods: {
     getColourString
+  },
+  watch: {
+    category: {
+      handler (newCategory) {
+        this.localCategory = { ...newCategory }
+      },
+      immediate: true,
+      deep: true
+    }
   }
 }
 /* assignable, categoryId, color, createdAt, description, guildSnowflake, name, permissions, snowflake, updatedAt */
