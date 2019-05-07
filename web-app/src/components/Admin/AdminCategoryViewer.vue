@@ -2,113 +2,123 @@
   <v-card class="py-2"
     flat
   >
-    <v-expansion-panel>
-      <v-expansion-panel-content>
+    <transition name="fade">
+      <v-expansion-panel>
+        <v-expansion-panel-content>
 
-        <template v-slot:header>
-          <div>
-            <!--v-icon v-if="role.color === 0" left>mdi-hexagon-outline</v-icon>
-            <v-icon v-else :color="getColourString(role.color)" left>mdi-hexagon-slice-6</v-icon-->
-            {{ category.name }}
-          </div>
-        </template>
+          <template v-slot:header>
+            <div>
+              <!--v-icon v-if="role.color === 0" left>mdi-hexagon-outline</v-icon>
+              <v-icon v-else :color="getColourString(role.color)" left>mdi-hexagon-slice-6</v-icon-->
+                <v-icon small left color="error" v-if="hasChange">mdi-alert-circle</v-icon>
+                <v-icon small left color="info" v-else>mdi-checkbox-marked-circle</v-icon>
+              {{ category.name }}
+            </div>
+          </template>
 
-        <v-card>
+          <v-card>
 
-          <!--
-            Delete category
-            Rename category
-            Exclusive?
-          -->
+            <!--
+              Delete category
+              Rename category
+              Exclusive?
+            -->
 
-          <v-card-text>
-            <v-form ref="form">
-              <v-layout
-                wrap
-                row
-              >
-                <!-- Text box - Name -->
-                <v-flex
-                  xs8
-                  sm6
-                  md5
+            <v-card-text>
+              <v-form ref="form">
+                <v-layout
+                  wrap
+                  row
                 >
-                  <v-text-field
-                    v-model="localCategory.name"
-                    :rules="rules.name"
-                    :counter="rules.maxNameLength"
-                    label="Category name"
-                    required
-                    class="pa-3"
-                  />
-                </v-flex>
-              </v-layout>
-                <!-- Textarea - Description -->
-
-              <v-layout
-                wrap
-                row
-              >
-                <v-flex
-                  xs12
-                >
-                  <v-textarea
-                    v-model="localCategory.description"
-                    :rules="rules.description"
-                    :counter="rules.maxDescriptionLength"
-                    label="Category description"
-                  />
-                </v-flex>
-              </v-layout>
-
-                <!-- Box of labels - Contained roles -->
-              <v-layout
-                wrap
-                row
-                justify-center
-              >
-                <v-flex
-                  md8
-                  sm10
-                  xs12
-                  d-flex
-                  text-xs-center
-                >
-                  <v-sheet
-                    color="grey lighten"
+                  <!-- Text box - Name -->
+                  <v-flex
+                    xs8
+                    sm6
+                    md5
                   >
-                    <v-chip>yeet</v-chip>
-                    <v-chip>yeet</v-chip>
-                    <v-chip>yeet</v-chip>
-                    <v-chip>yeet</v-chip>
-                  </v-sheet>
-                </v-flex>
-              </v-layout>
-            </v-form>
+                    <v-text-field
+                      v-model="localCategory.name"
+                      :rules="rules.name"
+                      :counter="rules.maxNameLength"
+                      label="Category name"
+                      required
+                      class="pa-3"
+                    />
+                  </v-flex>
+                </v-layout>
+                  <!-- Textarea - Description -->
 
-          </v-card-text>
+                <v-layout
+                  wrap
+                  row
+                >
+                  <v-flex
+                    xs12
+                  >
+                    <v-textarea
+                      v-model="localCategory.description"
+                      :rules="rules.description"
+                      :counter="rules.maxDescriptionLength"
+                      label="Category description"
+                    />
+                  </v-flex>
+                </v-layout>
 
-          <v-card-actions>
-            <v-spacer />
-            <v-btn
-              color="info"
-            >
-              <v-icon left>mdi-content-save-settings</v-icon>
-            </v-btn>
+                  <!-- Box of labels - Contained roles -->
+                <v-layout
+                  wrap
+                  row
+                  justify-center
+                >
+                  <v-flex
+                    md8
+                    sm10
+                    xs12
+                    d-flex
+                    text-xs-center
+                  >
+                    <v-sheet
+                      color="grey lighten"
+                    >
+                      <v-chip>yeet</v-chip>
+                      <v-chip>yeet</v-chip>
+                      <v-chip>yeet</v-chip>
+                      <v-chip>yeet</v-chip>
+                    </v-sheet>
+                  </v-flex>
+                </v-layout>
+              </v-form>
 
-            <v-btn
-              color="error"
-              @click="doDeleteCategory"
-              :loading="$wait.is(`guilds.deleteCategory.${category.id}`)"
-            >
-                <v-icon left>mdi-close</v-icon>Delete
-            </v-btn>
-          </v-card-actions>
+            </v-card-text>
 
-        </v-card>
+            <v-card-actions>
+              <v-spacer />
 
-      </v-expansion-panel-content>
-    </v-expansion-panel>
+              <transition name="fade">
+                <v-btn
+                  v-show="hasChange && formValid"
+                  color="info"
+                  @click="saveChanges"
+                >
+                  <v-icon left>mdi-content-save-settings</v-icon>
+                  Save
+                </v-btn>
+              </transition>
+
+              <v-btn
+                color="error"
+                @click="doDeleteCategory"
+                :loading="$wait.is(`guilds.deleteCategory.${category.id}`)"
+              >
+                  <v-icon left>mdi-close</v-icon>Delete
+              </v-btn>
+            </v-card-actions>
+
+          </v-card>
+
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </transition>
   </v-card>
 </template>
 
@@ -148,15 +158,31 @@ export default {
     ...mapState('guilds', {
       guildCategories: state => state.selected.categories,
       roles: state => state.selected.roles
-    })
+    }),
+    hasChange () {
+      for (const key in this.localCategory) {
+        if (this.localCategory[key] === this.category[key]) {
+          continue
+        } else {
+          return true
+        }
+      }
+      return false
+    },
+    formValid () {
+      return this.$refs.form.validate()
+    }
   },
   methods: {
-    ...mapActions('guilds', ['deleteCategory']),
+    ...mapActions('guilds', ['deleteCategory', 'updateCategory']),
     doDeleteCategory () {
       alert(`deleting the category`)
       this.deleteCategory(this.category.id)
     },
-    getColourString
+    getColourString,
+    saveChanges () {
+      //
+    }
   },
   watch: {
     category: {
@@ -170,3 +196,12 @@ export default {
 }
 /* assignable, categoryId, color, createdAt, description, guildSnowflake, name, permissions, snowflake, updatedAt */
 </script>
+
+<style scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .25s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+</style>
