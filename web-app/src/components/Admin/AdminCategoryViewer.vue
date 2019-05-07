@@ -45,6 +45,16 @@
                       class="pa-3"
                     />
                   </v-flex>
+
+                  <v-flex grow>
+                    <v-chip :color="localCategory.exclusive ? 'info' : 'success'">
+                      <v-avatar class="success darken-4">
+                        <v-icon v-if="localCategory.exclusive">mdi-numeric-1</v-icon>
+                        <v-icon v-else>mdi-check-all</v-icon>
+                      </v-avatar>
+                      {{ localCategory.exclusive ? 'Exclusive' : 'Non-exclusive' }}
+                    </v-chip>
+                  </v-flex>
                 </v-layout>
                   <!-- Textarea - Description -->
 
@@ -181,13 +191,17 @@ export default {
     },
     getColourString,
     saveChanges () {
-      //
+      this.updateCategory({
+        categoryId: this.category.id,
+        updatedFields: this.localCategory
+      })
     }
   },
   watch: {
     category: {
       handler (newCategory) {
         this.localCategory = { ...newCategory }
+        console.log('handle it')
       },
       immediate: true,
       deep: true

@@ -91,8 +91,8 @@ const actions = {
     dispatch('wait/start', `guilds.updateCategory.${categoryId}`, { root: true })
 
     try {
-      await updateCategory(state.selected.guild.snowflake, categoryId, updatedFields)
-      commit('updateCategory', categoryId)
+      const returnedCategory = await updateCategory(state.selected.guild.snowflake, categoryId, updatedFields)
+      commit('updateCategory', returnedCategory)
     } catch (e) {
       dispatch('alerts/throwError', e, { root: true })
     } finally {
