@@ -47,13 +47,23 @@
                   </v-flex>
 
                   <v-flex grow>
-                    <v-chip :color="localCategory.exclusive ? 'info' : 'success'">
-                      <v-avatar class="success darken-4">
-                        <v-icon v-if="localCategory.exclusive">mdi-numeric-1</v-icon>
-                        <v-icon v-else>mdi-check-all</v-icon>
-                      </v-avatar>
-                      {{ localCategory.exclusive ? 'Exclusive' : 'Non-exclusive' }}
-                    </v-chip>
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on }">
+                        <v-chip color="info" v-on="on">
+                          <v-avatar>
+                            <v-icon v-if="localCategory.exclusive">mdi-check-bold</v-icon>
+                            <v-icon v-else>mdi-check-all</v-icon>
+                          </v-avatar>
+                          {{ localCategory.exclusive ? 'Exclusive' : 'Non-exclusive' }}
+                        </v-chip>
+                      </template>
+                      <span>
+                        {{ localCategory.exclusive
+                            ? 'Only one role '
+                            : 'Multiple roles '
+                        }} from this category can be selected at one time
+                      </span>
+                    </v-tooltip>
                   </v-flex>
                 </v-layout>
                   <!-- Textarea - Description -->
@@ -109,6 +119,7 @@
                   v-show="hasChange && formValid"
                   color="info"
                   @click="saveChanges"
+                  :loading="$wait.is(`guilds.updateCategory.${category.id}`)"
                 >
                   <v-icon left>mdi-content-save-settings</v-icon>
                   Save
@@ -201,7 +212,7 @@ export default {
     category: {
       handler (newCategory) {
         this.localCategory = { ...newCategory }
-        console.log('handle it')
+        // console.log('handle it')
       },
       immediate: true,
       deep: true
