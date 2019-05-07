@@ -1,4 +1,4 @@
-import { fetchGuild, fetchRoles, fetchCategories, createCategory, deleteCategory, fetchHeldRoles } from '../api'
+import { fetchGuild, fetchRoles, fetchCategories, createCategory, updateCategory, deleteCategory, fetchHeldRoles } from '../api'
 
 const stateTemplate = {
   selected: {
@@ -26,6 +26,10 @@ const mutations = {
   },
   appendCategory: (state, category) => {
     state.selected.categories.push(category)
+  },
+  updateCategory: (state, category) => {
+    const index = state.selected.categories.findIndex(cat => cat.id === category.id)
+    state.selected.categories[index] = category
   },
   deleteCategory: (state, categoryId) => {
     state.selected.categories = state.selected.categories.filter(category => category.id !== categoryId)
@@ -81,6 +85,18 @@ const actions = {
       dispatch('alerts/throwError', e, { root: true })
     } finally {
       dispatch('wait/end', 'guilds.createCategory', { root: true })
+    }
+  },
+  updateCategory: async ({ commit, dispatch, state }, { categoryId, updatedFields }) => {
+    dispatch('wait/start', `guilds.updateCategory.${categoryId}`, { root: true })
+
+    try {
+      await updateCategory(state.selected.guild.snowflake, categoryId, updatedFields)
+      commit('updateCategory', categoryId)
+    } catch (e) {
+      dispatch('alerts/throwError', e, { root: true })
+    } finally {
+      dispatch('wait/end', `guilds.updateCategory.${categoryId}`, { root: true })
     }
   },
   deleteCategory: async ({ commit, dispatch, state }, categoryId) => {
