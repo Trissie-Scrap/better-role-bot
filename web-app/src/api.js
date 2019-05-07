@@ -43,14 +43,14 @@ export function fetchRoles (snowflake) {
   return apiFetch(`${API_URL}/guilds/${snowflake}/roles`)
 }
 
-export function postRole (guild, body) {
+export function createRole (guild, body) {
   return apiFetch(`${API_URL}/guilds/${guild}/roles`, {
     body,
     method: 'post'
   })
 }
 
-export function putRole (guild, role, body) {
+export function updateRole (guild, role, body) {
   return apiFetch(`${API_URL}/guilds/${guild}/roles/${role}`, {
     body,
     method: 'put'
@@ -64,9 +64,16 @@ export function createCategory (snowflake, body) {
   })
 }
 
-export function deleteCategory (guildSnowflake, categoryId, body) {
+export function deleteCategory (guildSnowflake, categoryId) {
   return apiFetch(`${API_URL}/guilds/${guildSnowflake}/role-categories/${categoryId}`, {
     method: 'delete'
+  })
+}
+
+export function updateCategory (guildSnowflake, categoryId, body) {
+  return apiFetch(`${API_URL}/guilds/${guildSnowflake}/role-categories/${categoryId}`, {
+    body,
+    method: 'put'
   })
 }
 
