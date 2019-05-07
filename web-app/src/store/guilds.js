@@ -29,7 +29,7 @@ const mutations = {
   },
   updateCategory: (state, category) => {
     const index = state.selected.categories.findIndex(cat => cat.id === category.id)
-    state.selected.categories[index] = category
+    state.selected.categories.splice(index, 1, category)
   },
   deleteCategory: (state, categoryId) => {
     state.selected.categories = state.selected.categories.filter(category => category.id !== categoryId)
